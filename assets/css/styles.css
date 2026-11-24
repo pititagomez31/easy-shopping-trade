@@ -348,6 +348,32 @@ a {
   gap: 0.75rem;
 }
 
+.brand-logo {
+  width: 2.75rem;
+  height: 2.75rem;
+  object-fit: contain;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 12px rgba(255, 80, 0, 0.35));
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.brand-lockup:hover .brand-logo {
+  transform: scale(1.06);
+  filter: drop-shadow(0 0 18px rgba(255, 80, 0, 0.55));
+}
+
+.brand-logo-lg {
+  width: 3.35rem;
+  height: 3.35rem;
+}
+
+.evolution-logo {
+  width: 1.65rem;
+  height: 1.65rem;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
 .brand-badge {
   display: grid;
   place-items: center;
