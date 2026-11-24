@@ -100,13 +100,13 @@ window.EST_CONFIG = {
     lindaModalVideo: 'assets/media/linda-modal.mp4',
   },
 
-  // 6. AVATAR CONVERSACIONAL EN VIVO (HeyGen Interactive Avatar / WebRTC)
+  // 6. CHAT / ASESORA EN VIVO (Linda Wang — listo para conectar API de chatbot)
   liveAvatar: {
     enabled: true,
-    provider: 'demo', // Cambiar a 'heygen_webrtc' o 'openai_realtime' al conectar backend
-    sessionEndpoint: '',
-    avatarName: 'Linda Wang · IA',
-    avatarRole: 'Especialista en Sourcing 1688 & Logística Marítima',
+    provider: 'demo', // Cambiar a 'api' al conectar tu endpoint de chatbot en Railway o Make
+    chatEndpoint: '', // Ej: '/api/chat' o URL de webhook de Make/n8n
+    avatarName: 'Linda Wang',
+    avatarRole: 'Asesora 1688 & Logística Marítima',
     greeting:
       'Hola, soy Linda de Easy Shopping Trade Co. Te ayudo a cotizar productos de 1688 en tu moneda local con ruta marítima DDP hacia Latinoamérica y España, o a validar fábricas en China. ¿Qué producto quieres analizar?',
     quickPrompts: [

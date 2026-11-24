@@ -1380,10 +1380,10 @@
         'Excelente. Puedes pegar tu enlace de 1688 en la Calculadora Marítima arriba para ver el costo puesto en tu moneda local (COP, MXN, CLP, PEN, ARS, USD o EUR), o enviarnos el detalle en el formulario B2B.';
 
       setTimeout(() => {
-        setMode('speaking', 'LINDA HABLANDO · EN VIVO');
+        setMode('speaking', 'LINDA EN LÍNEA');
         appendMessage('ai', reply);
         setTimeout(() => {
-          if (avatarState.mode === 'speaking') setMode('idle', 'ESPECIALISTA 1688 · LISTA');
+          if (avatarState.mode === 'speaking') setMode('idle', 'ASESORA 1688 · EN LÍNEA');
         }, 3200);
       }, 550);
     }
@@ -1469,7 +1469,7 @@
       avatarState.isOpen = false;
       drawer.classList.remove('is-open');
       pill.style.display = 'inline-flex';
-      setMode('idle', 'ESPECIALISTA 1688 · LISTA');
+      setMode('idle', 'ASESORA 1688 · EN LÍNEA');
     }
 
     pill.addEventListener('click', openDrawer);
@@ -1479,7 +1479,7 @@
       micBtn.innerHTML = ICONS.mic;
       micBtn.addEventListener('click', () => {
         if (avatarState.mode === 'listening') {
-          setMode('idle', 'ESPECIALISTA 1688 · LISTA');
+          setMode('idle', 'ASESORA 1688 · EN LÍNEA');
           return;
         }
         setMode('listening', 'ESCUCHANDO TU VOZ...');
@@ -1496,7 +1496,7 @@
             };
             rec.onerror = () => setMode('idle', 'USA EL TEXTO O PREGUNTAS RÁPIDAS');
             rec.onend = () => {
-              if (avatarState.mode === 'listening') setMode('idle', 'ESPECIALISTA 1688 · LISTA');
+              if (avatarState.mode === 'listening') setMode('idle', 'ASESORA 1688 · EN LÍNEA');
             };
             rec.start();
           } catch {

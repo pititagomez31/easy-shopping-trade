@@ -108,7 +108,7 @@
         <!-- Globo Terráqueo 3D WebGL (NASA Night Lights + Rutas Marítimas Pacífico & Suez) -->
         <div id="globe-stage" class="globe-stage" aria-label="Globo terráqueo 3D interactivo de rutas marítimas desde Ningbo y Guangzhou hacia Latinoamérica y España">
           <div class="globe-hud-top">
-            <span class="hud-pill">GLOBO MARÍTIMO 3D</span>
+            <span class="hud-pill">NUESTRAS RUTAS</span>
             <span id="globe-route-indicator" class="mono">PACÍFICO · NINGBO / GUANGZHOU</span>
           </div>
 
@@ -610,25 +610,25 @@
   </div>
 
   <!-- ======================================================================
-       WIDGET FLOTANTE DE AVATAR CONVERSACIONAL (NARANJA 1688)
+       WIDGET FLOTANTE DE ASESORÍA EN VIVO (LINDA WANG)
        ====================================================================== -->
-  <aside class="avatar-widget-root" aria-label="Asistente Conversacional IA">
-    <div id="avatar-drawer" class="avatar-drawer" role="dialog" aria-label="Hablar con Especialista IA">
+  <aside class="avatar-widget-root" aria-label="Asesoría en vivo con Linda Wang">
+    <div id="avatar-drawer" class="avatar-drawer" role="dialog" aria-label="Hablar con Linda Wang">
       <div class="avatar-drawer-header">
         <div style="display:flex;align-items:center;gap:0.65rem;">
           <span class="avatar-orb" style="width:1.95rem;height:1.95rem;"></span>
           <div style="line-height:1.15;">
-            <strong style="display:block;font-family:var(--font-display);font-size:0.88rem;color:#fff;">Linda Wang · IA</strong>
-            <span id="avatar-status-label" class="mono" style="font-size:0.64rem;color:var(--accent-light);">ESPECIALISTA 1688 · LISTA</span>
+            <strong style="display:block;font-family:var(--font-display);font-size:0.88rem;color:#fff;">Linda Wang</strong>
+            <span id="avatar-status-label" class="mono" style="font-size:0.64rem;color:var(--accent-light);">ASESORA 1688 · EN LÍNEA</span>
           </div>
         </div>
-        <button type="button" id="avatar-close-btn" class="modal-close" style="position:static;width:2rem;height:2rem;font-size:1rem;" aria-label="Minimizar asistente">×</button>
+        <button type="button" id="avatar-close-btn" class="modal-close" style="position:static;width:2rem;height:2rem;font-size:1rem;" aria-label="Minimizar chat">×</button>
       </div>
 
       <div class="avatar-stage">
         <canvas id="avatar-wave-canvas"></canvas>
-        <span class="mono" style="font-size:0.64rem;color:var(--text-muted);letter-spacing:0.06em;">
-          WEBRTC READY · HEYGEN LIVE AVATAR / REALTIME API
+        <span class="mono" style="font-size:0.64rem;color:var(--text-secondary);letter-spacing:0.06em;">
+          ATENCIÓN DIRECTA · CHINA → LATAM &amp; ESPAÑA
         </span>
       </div>
 
@@ -637,18 +637,18 @@
 
       <form id="avatar-text-form" class="avatar-controls">
         <button type="button" id="avatar-mic-btn" class="avatar-mic-btn" aria-label="Activar micrófono" title="Hablar por voz"></button>
-        <input id="avatar-text-input" class="input" style="min-height:2.45rem;font-size:0.82rem;padding:0.45rem 0.75rem;" type="text" placeholder="Escribe o toca el micrófono...">
+        <input id="avatar-text-input" class="input" style="min-height:2.45rem;font-size:0.82rem;padding:0.45rem 0.75rem;" type="text" placeholder="Escribe tu consulta o toca el micrófono...">
         <button type="submit" class="btn btn-primary btn-auto-sm btn-sm" style="min-height:2.45rem;padding:0.4rem 0.85rem;">
           →
         </button>
       </form>
     </div>
 
-    <button type="button" id="avatar-pill-btn" class="avatar-pill" aria-label="Abrir Especialista 1688 IA">
+    <button type="button" id="avatar-pill-btn" class="avatar-pill" aria-label="Hablar con Linda Wang">
       <span class="avatar-orb" aria-hidden="true"></span>
       <span class="avatar-pill-text">
-        <span class="avatar-pill-title">Habla con Linda · IA</span>
-        <span class="avatar-pill-sub">ESPECIALISTA 1688 · EN VIVO</span>
+        <span class="avatar-pill-title">Habla con Linda Wang</span>
+        <span class="avatar-pill-sub">ASESORA 1688 · EN LÍNEA</span>
       </span>
     </button>
   </aside>
