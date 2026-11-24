@@ -105,20 +105,50 @@
           </div>
         </div>
 
-        <!-- Globo Terráqueo 3D WebGL (NASA Night Lights + Rutas Marítimas Pacífico & Suez) -->
-        <div id="globe-stage" class="globe-stage" aria-label="Globo terráqueo 3D interactivo de rutas marítimas desde Ningbo y Guangzhou hacia Latinoamérica y España">
+        <!-- Globo Terráqueo 3D WebGL (NASA Night Lights + Buques en Vivo estilo FlightRadar) -->
+        <div id="globe-stage" class="globe-stage" aria-label="Mapa 3D interactivo de buques portacontenedores y salidas semanales desde Ningbo y Guangzhou hacia Latinoamérica y España">
           <div class="globe-hud-top">
-            <span class="hud-pill">NUESTRAS RUTAS</span>
-            <span id="globe-route-indicator" class="mono">PACÍFICO · NINGBO / GUANGZHOU</span>
+            <span class="hud-pill">NUESTRAS RUTAS · SALIDAS SEMANALES</span>
+            <span id="globe-route-indicator" class="mono">5 BUQUES EN TRÁNSITO</span>
           </div>
 
           <div id="globe-viz" class="globe-viz"></div>
 
+          <!-- Tarjeta interactiva tipo FlightRadar al hacer clic en un buque -->
+          <div id="ship-radar-card" class="ship-radar-card" role="region" aria-label="Detalle del buque consolidado">
+            <div class="ship-card-head">
+              <div>
+                <span id="ship-card-code" class="chip chip-solid-1688 mono">CF-PAC-01</span>
+                <strong id="ship-card-name" class="ship-card-title">MV Ningbo Express</strong>
+              </div>
+              <button type="button" id="ship-card-close" class="ship-card-close" aria-label="Cerrar ficha del buque">×</button>
+            </div>
+            <div id="ship-card-route" class="ship-card-route mono">Ningbo → Manzanillo / Buenaventura</div>
+            <div class="ship-progress-wrap">
+              <div class="ship-progress-meta mono">
+                <span id="ship-card-zone">Océano Pacífico</span>
+                <strong id="ship-card-pct" style="color:var(--accent-light);">48%</strong>
+              </div>
+              <div class="ship-progress-track">
+                <div id="ship-card-bar" class="ship-progress-fill" style="width:48%;"></div>
+              </div>
+            </div>
+            <p id="ship-card-cargo" class="ship-card-cargo"></p>
+            <div class="ship-card-schedule mono">
+              <span id="ship-card-next">Próximo corte semanal: Viernes</span>
+              <strong id="ship-card-space" style="color:var(--emerald-400);">3.8 m³ libres</strong>
+            </div>
+            <button type="button" id="ship-card-cta" class="btn btn-primary btn-sm" style="margin-top:0.55rem;min-height:2.35rem;font-size:0.78rem;">
+              Reservar cupo en próximo zarpe →
+            </button>
+          </div>
+
           <div class="globe-hud-bottom">
-            <div class="globe-cam-bar" role="group" aria-label="Enfocar ruta marítima">
+            <div class="globe-cam-bar" role="group" aria-label="Enfocar ruta marítima o buque">
               <button type="button" class="globe-cam-btn is-active" data-globe-view="pacific">Pacífico · LATAM</button>
               <button type="button" class="globe-cam-btn" data-globe-view="china">Puertos China</button>
               <button type="button" class="globe-cam-btn" data-globe-view="spain">Suez · España</button>
+              <button type="button" class="globe-cam-btn globe-ship-focus-btn" data-track-ship="CF-PAC-01">🚢 Rastrear Buque</button>
             </div>
           </div>
         </div>

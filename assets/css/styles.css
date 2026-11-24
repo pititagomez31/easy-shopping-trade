@@ -729,6 +729,187 @@ a {
   box-shadow: 0 0 10px #ff5000;
 }
 
+/* Marcadores animados de Buques Portacontenedores (estilo FlightRadar) */
+.globe-ship-marker {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
+  padding: 0.22rem 0.48rem 0.22rem 0.34rem;
+  border-radius: 9999px;
+  background: rgba(10, 12, 18, 0.92);
+  border: 1px solid rgba(255, 110, 40, 0.78);
+  color: #ffffff;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  pointer-events: auto;
+  cursor: pointer;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 18px rgba(255, 80, 0, 0.55), 0 4px 12px rgba(0, 0, 0, 0.75);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.globe-ship-marker::before {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 80, 0, 0.45);
+  animation: shipPulse 2.2s ease-out infinite;
+  pointer-events: none;
+}
+
+@keyframes shipPulse {
+  0% {
+    opacity: 0.85;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.38);
+  }
+}
+
+.globe-ship-marker:hover,
+.globe-ship-marker.is-selected {
+  border-color: #ffffff;
+  background: #ff5000;
+  transform: translate(-50%, -50%) scale(1.14);
+  box-shadow: 0 0 26px rgba(255, 80, 0, 0.88);
+  z-index: 20;
+}
+
+.globe-ship-svg {
+  width: 18px;
+  height: 12px;
+  flex-shrink: 0;
+}
+
+.globe-ship-focus-btn {
+  border-color: rgba(255, 106, 0, 0.45);
+  color: #ffd0ad;
+}
+
+/* Tarjeta de Telemetría Marítima (FlightRadar de Contenedores) */
+.ship-radar-card {
+  position: absolute;
+  left: 0.85rem;
+  right: 0.85rem;
+  bottom: 4.1rem;
+  z-index: 15;
+  padding: 0.9rem 1rem;
+  border-radius: 0.95rem;
+  background: rgba(9, 10, 15, 0.92);
+  border: 1px solid rgba(255, 80, 0, 0.48);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 18px 46px rgba(0, 0, 0, 0.82), 0 0 28px rgba(255, 80, 0, 0.16);
+  display: none;
+  flex-direction: column;
+  gap: 0.42rem;
+  animation: modalIn 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@media (min-width: 520px) {
+  .ship-radar-card {
+    max-width: 20.5rem;
+    right: auto;
+  }
+}
+
+.ship-radar-card.is-open {
+  display: flex;
+}
+
+.ship-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.ship-card-title {
+  margin-left: 0.4rem;
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  color: #ffffff;
+}
+
+.ship-card-close {
+  width: 1.65rem;
+  height: 1.65rem;
+  border-radius: 50%;
+  border: 1px solid var(--border-glass);
+  background: rgba(255, 255, 255, 0.06);
+  color: #cbd5e1;
+  font-size: 0.95rem;
+  line-height: 1;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+}
+
+.ship-card-close:hover {
+  border-color: var(--accent);
+  color: #ffffff;
+}
+
+.ship-card-route {
+  font-size: 0.7rem;
+  color: #e2e8f0;
+  letter-spacing: 0.02em;
+}
+
+.ship-progress-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.ship-progress-meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.66rem;
+  color: var(--text-secondary);
+}
+
+.ship-progress-track {
+  width: 100%;
+  height: 5px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
+
+.ship-progress-fill {
+  height: 100%;
+  border-radius: 9999px;
+  background: linear-gradient(90deg, #ff5000 0%, #ffb380 100%);
+  box-shadow: 0 0 12px rgba(255, 80, 0, 0.7);
+  transition: width 0.4s ease;
+}
+
+.ship-card-cargo {
+  margin: 0.1rem 0 0;
+  font-size: 0.74rem;
+  color: #cbd5e1;
+  line-height: 1.38;
+}
+
+.ship-card-schedule {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding-top: 0.38rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.66rem;
+  color: var(--text-secondary);
+}
+
 .hud-pill {
   padding: 0.24rem 0.58rem;
   border-radius: 0.42rem;

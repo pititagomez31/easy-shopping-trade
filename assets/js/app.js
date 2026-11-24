@@ -291,6 +291,182 @@
       },
     ];
 
+    // Puntos densos por corredor para navegar los buques suavemente sobre el océano
+    const routePacNorthPts = interpolateSeaPath(pacificNorthCoords, 16, 0.022);
+    const routePacSouthPts = interpolateSeaPath(pacificSouthCoords, 16, 0.022);
+    const routeSuezSpainPts = interpolateSeaPath(suezSpainCoords, 16, 0.022);
+
+    // Calcula dinámicamente la próxima fecha de corte semanal (1=Lunes ... 5=Viernes)
+    function getNextWeeklyCutoff(targetDay, labelPrefix) {
+      const now = new Date();
+      const diff = (targetDay - now.getDay() + 7) % 7 || 7;
+      const nextDate = new Date(now.getTime() + diff * 86400000);
+      const formatted = nextDate.toLocaleDateString('es-ES', {
+        weekday: 'short',
+        day: 'numeric',
+        month: 'short',
+      });
+      return `${labelPrefix}: ${formatted}`;
+    }
+
+    // 5 Buques Portacontenedores activos en salidas semanales (estilo FlightRadar marítimo)
+    const SHIPS = [
+      {
+        kind: 'ship',
+        id: 'CF-PAC-01',
+        name: 'MV Ningbo Express',
+        routeLabel: 'Ningbo → Manzanillo (MX) → Buenaventura (CO)',
+        points: routePacNorthPts,
+        progress: 0.44,
+        speed: 0.0014,
+        zone: 'Océano Pacífico Norte · En tránsito',
+        cargo: 'Consolidado semanal: Tecnología 1688, audio y carga rápida · 24 importadores a bordo.',
+        nextCutoff: getNextWeeklyCutoff(5, 'Próximo zarpe semanal'),
+        spaceLeft: '3.8 m³ libres',
+      },
+      {
+        kind: 'ship',
+        id: 'CF-PAC-02',
+        name: 'MV Pacific Consolidator',
+        routeLabel: 'Ningbo → Buenaventura (CO)',
+        points: routePacNorthPts,
+        progress: 0.82,
+        speed: 0.0012,
+        zone: 'Aproximación Pacífico · México / Colombia',
+        cargo: 'Consolidado semanal: Cargadores GaN, accesorios tech y repuestos · 19 importadores.',
+        nextCutoff: getNextWeeklyCutoff(5, 'Próximo zarpe semanal'),
+        spaceLeft: '2.4 m³ libres',
+      },
+      {
+        kind: 'ship',
+        id: 'CF-AND-03',
+        name: 'MV Canton Andes',
+        routeLabel: 'Guangzhou → Callao (PE) → Valparaíso (CL)',
+        points: routePacSouthPts,
+        progress: 0.36,
+        speed: 0.0013,
+        zone: 'Océano Pacífico Ecuatorial · En tránsito',
+        cargo: 'Consolidado semanal: Hardware B2B, electrónica y comercial · 21 importadores.',
+        nextCutoff: getNextWeeklyCutoff(2, 'Próximo zarpe semanal'),
+        spaceLeft: '4.5 m³ libres',
+      },
+      {
+        kind: 'ship',
+        id: 'CF-AND-04',
+        name: 'MV Austral Trade',
+        routeLabel: 'Guangzhou → Valparaíso (CL) → Buenos Aires (AR)',
+        points: routePacSouthPts,
+        progress: 0.71,
+        speed: 0.0011,
+        zone: 'Pacífico Sur · Rumbo a Callao / Valparaíso',
+        cargo: 'Consolidado semanal: Equipos OEM y línea comercial · 15 importadores.',
+        nextCutoff: getNextWeeklyCutoff(2, 'Próximo zarpe semanal'),
+        spaceLeft: '5.1 m³ libres',
+      },
+      {
+        kind: 'ship',
+        id: 'CF-MED-05',
+        name: 'MV Iberia Direct',
+        routeLabel: 'Ningbo / Guangzhou → Suez → Valencia (España)',
+        points: routeSuezSpainPts,
+        progress: 0.56,
+        speed: 0.0013,
+        zone: 'Océano Índico · Rumbo a Canal de Suez',
+        cargo: 'Consolidado semanal: Importación directa 1688 hacia España · 16 importadores.',
+        nextCutoff: getNextWeeklyCutoff(4, 'Próximo zarpe semanal'),
+        spaceLeft: '3.2 m³ libres',
+      },
+    ];
+
+    function syncShipCoords(ship) {
+      const idx = Math.min(
+        ship.points.length - 1,
+        Math.max(0, Math.floor(ship.progress * (ship.points.length - 1)))
+      );
+      const pt = ship.points[idx];
+      ship.lat = pt.lat;
+      ship.lng = pt.lng;
+      ship.alt = pt.alt + 0.015;
+    }
+
+    SHIPS.forEach(syncShipCoords);
+
+    const SHIP_SVG =
+      '<svg class="globe-ship-svg" viewBox="0 0 28 16" fill="none" xmlns="http://www.w3.org/2000/svg">' +
+      '<path d="M2 10.5H26L23.5 14.5H4.5L2 10.5Z" fill="#E4E4E7"/>' +
+      '<rect x="5" y="6.2" width="4.4" height="3.8" rx="0.6" fill="#FF5000"/>' +
+      '<rect x="10" y="6.2" width="4.4" height="3.8" rx="0.6" fill="#FF8C38"/>' +
+      '<rect x="15" y="6.2" width="4.4" height="3.8" rx="0.6" fill="#34D399"/>' +
+      '<rect x="7.5" y="2.8" width="4.2" height="3" rx="0.5" fill="#FF6A00"/>' +
+      '<rect x="12.3" y="2.8" width="4.2" height="3" rx="0.5" fill="#F8FAFC"/>' +
+      '<path d="M20.2 3.5H23V10H20.2V3.5Z" fill="#FFFFFF"/>' +
+      '</svg>';
+
+    // Combinar puertos estáticos + buques en movimiento en la capa HTML 3D
+    const PORT_MARKERS = PORTS.map((p) => ({ ...p, kind: 'port' }));
+    const ALL_HTML_MARKERS = [...PORT_MARKERS, ...SHIPS];
+
+    // Tarjeta de telemetría FlightRadar de contenedores
+    const shipCard = document.getElementById('ship-radar-card');
+    const shipCardCode = document.getElementById('ship-card-code');
+    const shipCardName = document.getElementById('ship-card-name');
+    const shipCardRoute = document.getElementById('ship-card-route');
+    const shipCardZone = document.getElementById('ship-card-zone');
+    const shipCardPct = document.getElementById('ship-card-pct');
+    const shipCardBar = document.getElementById('ship-card-bar');
+    const shipCardCargo = document.getElementById('ship-card-cargo');
+    const shipCardNext = document.getElementById('ship-card-next');
+    const shipCardSpace = document.getElementById('ship-card-space');
+    const shipCardCta = document.getElementById('ship-card-cta');
+    const shipCardClose = document.getElementById('ship-card-close');
+
+    let selectedShip = null;
+
+    function updateShipCardProgress() {
+      if (!selectedShip || !shipCard?.classList.contains('is-open')) return;
+      const pct = Math.max(5, Math.min(98, Math.round(selectedShip.progress * 100)));
+      if (shipCardPct) shipCardPct.textContent = `${pct}%`;
+      if (shipCardBar) shipCardBar.style.width = `${pct}%`;
+    }
+
+    function openShipCard(ship) {
+      selectedShip = ship;
+      SHIPS.forEach((s) => {
+        if (s._el) s._el.classList.toggle('is-selected', s.id === ship.id);
+      });
+
+      if (shipCardCode) shipCardCode.textContent = ship.id;
+      if (shipCardName) shipCardName.textContent = ship.name;
+      if (shipCardRoute) shipCardRoute.textContent = ship.routeLabel;
+      if (shipCardZone) shipCardZone.textContent = ship.zone;
+      if (shipCardCargo) shipCardCargo.textContent = ship.cargo;
+      if (shipCardNext) shipCardNext.textContent = ship.nextCutoff;
+      if (shipCardSpace) shipCardSpace.textContent = ship.spaceLeft;
+      updateShipCardProgress();
+
+      if (routeIndicator) routeIndicator.textContent = `RASTREANDO ${ship.id} · ${ship.name.toUpperCase()}`;
+      if (shipCard) shipCard.classList.add('is-open');
+    }
+
+    function closeShipCard() {
+      selectedShip = null;
+      SHIPS.forEach((s) => {
+        if (s._el) s._el.classList.remove('is-selected');
+      });
+      if (shipCard) shipCard.classList.remove('is-open');
+      if (routeIndicator) routeIndicator.textContent = `${SHIPS.length} BUQUES EN TRÁNSITO`;
+    }
+
+    if (shipCardClose) shipCardClose.addEventListener('click', closeShipCard);
+    if (shipCardCta) {
+      shipCardCta.addEventListener('click', () => {
+        if (!selectedShip) return;
+        prefillB2BQuote(
+          `Reserva de cupo en próximo zarpe semanal (${selectedShip.routeLabel} · Ref: ${selectedShip.id} / ${selectedShip.nextCutoff}).`
+        );
+      });
+    }
+
     const w = stage.clientWidth || 460;
     const h = stage.clientHeight || 460;
 
@@ -340,18 +516,38 @@
       .ringPropagationSpeed(2.2)
       .ringRepeatPeriod(1500)
 
-      // Etiquetas glassmorphic 3D ancladas a puertos clave
-      .htmlElementsData(PORTS)
+      // Capa HTML 3D: Puertos + Buques Portacontenedores en vivo (con caché DOM para 0 parpadeo)
+      .htmlElementsData(ALL_HTML_MARKERS)
       .htmlLat((d) => d.lat)
       .htmlLng((d) => d.lng)
-      .htmlAltitude((d) => (d.type === 'origin' ? 0.085 : 0.06))
+      .htmlAltitude((d) =>
+        d.kind === 'ship' ? d.alt : d.type === 'origin' ? 0.085 : 0.06
+      )
       .htmlElement((d) => {
+        if (d._el) return d._el;
+
         const el = document.createElement('div');
-        el.className = `globe-port-tag ${d.type === 'origin' ? 'is-origin' : ''}`;
-        el.innerHTML = `<span class="globe-port-dot"></span><span>${d.label}</span>`;
-        el.addEventListener('click', () => {
-          world.pointOfView({ lat: d.lat, lng: d.lng, altitude: 1.75 }, 1100);
-        });
+        if (d.kind === 'ship') {
+          el.className = 'globe-ship-marker';
+          el.title = `${d.name} · Clic para ver carga y próximo zarpe semanal`;
+          el.innerHTML = `${SHIP_SVG}<span>${d.id}</span>`;
+          el.addEventListener('click', (evt) => {
+            evt.stopPropagation();
+            if (controls) controls.autoRotate = false;
+            world.pointOfView({ lat: d.lat, lng: d.lng, altitude: 1.85 }, 1000);
+            openShipCard(d);
+          });
+        } else {
+          el.className = `globe-port-tag ${d.type === 'origin' ? 'is-origin' : ''}`;
+          el.innerHTML = `<span class="globe-port-dot"></span><span>${d.label}</span>`;
+          el.addEventListener('click', (evt) => {
+            evt.stopPropagation();
+            closeShipCard();
+            world.pointOfView({ lat: d.lat, lng: d.lng, altitude: 1.75 }, 1050);
+          });
+        }
+
+        d._el = el;
         return el;
       });
 
@@ -369,18 +565,18 @@
       controls.enableDamping = true;
       controls.dampingFactor = 0.08;
       controls.autoRotate = !reducedMotion;
-      controls.autoRotateSpeed = 0.42;
+      controls.autoRotateSpeed = 0.36;
     }
 
     // Presets de cámara cinematográfica
     const VIEWS = {
       pacific: {
         pov: { lat: 6, lng: -145, altitude: 2.15 },
-        label: 'PACÍFICO · NINGBO / GUANGZHOU → LATAM',
+        label: '5 BUQUES EN TRÁNSITO · PACÍFICO',
       },
       china: {
         pov: { lat: 24, lng: 116, altitude: 1.55 },
-        label: 'ORIGEN CHINA · NINGBO & GUANGZHOU',
+        label: 'SALIDAS SEMANALES · NINGBO & GUANGZHOU',
       },
       spain: {
         pov: { lat: 26, lng: 42, altitude: 2.05 },
@@ -388,7 +584,7 @@
       },
     };
 
-    // Vista inicial sobre el Pacífico mostrando China y Latinoamérica
+    // Vista inicial sobre el Pacífico mostrando China, buques en tránsito y Latinoamérica
     world.pointOfView(VIEWS.pacific.pov, 0);
 
     // Botones HUD de enfoque rápido
@@ -399,12 +595,13 @@
         const cfgView = VIEWS[key];
         if (!cfgView) return;
 
+        closeShipCard();
         stage.querySelectorAll('[data-globe-view]').forEach((b) => b.classList.remove('is-active'));
         btn.classList.add('is-active');
         if (routeIndicator) routeIndicator.textContent = cfgView.label;
 
         if (controls) controls.autoRotate = false;
-        world.pointOfView(cfgView.pov, 1250);
+        world.pointOfView(cfgView.pov, 1200);
 
         clearTimeout(resumeTimer);
         if (!reducedMotion && controls) {
@@ -415,6 +612,31 @@
       });
     });
 
+    // Botón "🚢 Rastrear Buque": recorre los 5 barcos semanales uno a uno volando hacia cada uno
+    let trackIndex = 0;
+    const trackBtn = stage.querySelector('[data-track-ship]');
+    if (trackBtn) {
+      trackBtn.addEventListener('click', () => {
+        const ship = SHIPS[trackIndex % SHIPS.length];
+        trackIndex += 1;
+        if (controls) controls.autoRotate = false;
+        world.pointOfView({ lat: ship.lat, lng: ship.lng, altitude: 1.85 }, 1100);
+        openShipCard(ship);
+      });
+    }
+
+    // Movimiento continuo y suave de los 5 barcos a lo largo de las rutas oceánicas
+    let globeVisible = true;
+    const shipTicker = setInterval(() => {
+      if (reducedMotion || !globeVisible || document.hidden) return;
+      SHIPS.forEach((ship) => {
+        ship.progress = (ship.progress + ship.speed) % 1;
+        syncShipCoords(ship);
+      });
+      world.htmlElementsData(ALL_HTML_MARKERS);
+      updateShipCardProgress();
+    }, 160);
+
     // Resize responsivo automático
     const ro = new ResizeObserver((entries) => {
       const rect = entries[0]?.contentRect;
@@ -423,17 +645,19 @@
     });
     ro.observe(stage);
 
-    // Pausar rotación cuando el Hero sale de pantalla para cuidar batería en móvil
+    // Pausar rotación y ticker cuando el Hero sale de pantalla para cuidar batería en móvil
     const io = new IntersectionObserver(
       (entries) => {
-        const visible = entries[0]?.isIntersecting ?? true;
+        globeVisible = entries[0]?.isIntersecting ?? true;
         if (controls && !reducedMotion) {
-          controls.autoRotate = visible;
+          controls.autoRotate = globeVisible && !selectedShip;
         }
       },
       { threshold: 0.05 }
     );
     io.observe(stage);
+
+    window.addEventListener('beforeunload', () => clearInterval(shipTicker));
   }
 
   // ==========================================================================
