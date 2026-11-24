@@ -116,638 +116,324 @@
   };
 
   // ==========================================================================
-  // 1. GLOBO TERRÁQUEO 3D REAL (CONTINENTES + MERIDIANOS + RUTAS MARÍTIMAS)
-  // Proyección esférica ortográfica real con continentes, China destacada,
-  // Latinoamérica y España, más interacción por arrastre a 60 FPS.
+  // 1. GLOBO TERRÁQUEO 3D WEBGL (NASA NIGHT LIGHTS + RELIEVE + RUTAS REALES)
+  // Motor Three.js / Globe.gl con textura satelital nocturna real, atmósfera
+  // naranja 1688, corredores marítimos reales por el Pacífico y Canal de Suez,
+  // balizas 3D en puertos y vuelos cinematográficos de cámara.
   // ==========================================================================
 
   function initSourcingGlobe() {
-    const canvas = document.getElementById('sourcing-globe-canvas');
+    const container = document.getElementById('globe-viz');
     const stage = document.getElementById('globe-stage');
-    if (!canvas || !stage) return;
+    const routeIndicator = document.getElementById('globe-route-indicator');
+    if (!container || !stage) return;
 
-    const ctx = canvas.getContext('2d', { alpha: true });
-    if (!ctx) return;
-
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    let width = 0;
-    let height = 0;
-    let radius = 150;
-
-    // Ángulo inicial centrado en el Océano Pacífico: muestra China (Ningbo/Guangzhou)
-    // a la izquierda y Latinoamérica a la derecha, rotando hacia España y Europa
-    let rotY = 2.72;
-    let rotX = 0.18;
-    let autoSpeed = 0.0036;
-    let isDragging = false;
-    let lastPointerX = 0;
-    let lastPointerY = 0;
-    let rafId = null;
-    let isVisible = true;
-    let packetProgress = 0;
-
-    // Polígonos geográficos reales [lat, lon] para silueta inconfundible del planeta Tierra
-    const CONTINENTS = [
-      {
-        name: 'NorthAmerica',
-        highlight: false,
-        coords: [
-          [70, -162], [71, -135], [68, -110], [64, -90], [60, -78], [55, -60],
-          [47, -53], [44, -64], [41, -70], [35, -75], [25, -80], [29, -85],
-          [28, -96], [21, -97], [21, -87], [16, -88], [14, -83], [9, -80],
-          [8, -77], [8, -83], [14, -92], [18, -104], [24, -109], [32, -117],
-          [40, -124], [49, -125], [58, -137], [60, -150], [56, -162], [65, -167],
-        ],
-      },
-      {
-        name: 'Greenland',
-        highlight: false,
-        coords: [
-          [82, -32], [77, -18], [68, -28], [60, -44], [66, -54], [76, -68], [82, -52],
-        ],
-      },
-      {
-        name: 'SouthAmerica',
-        highlight: true,
-        accent: 'dest',
-        coords: [
-          [12, -72], [11, -62], [6, -52], [0, -49], [-5, -35], [-13, -38],
-          [-23, -43], [-34, -53], [-42, -64], [-53, -68], [-55, -71], [-46, -75],
-          [-34, -72], [-18, -71], [-5, -81], [2, -79], [8, -77],
-        ],
-      },
-      {
-        name: 'Europe',
-        highlight: true,
-        accent: 'dest',
-        coords: [
-          [36, -9], [43, -9], [43, -2], [48, -4], [51, 2], [54, 8], [58, 5],
-          [64, 10], [70, 20], [70, 31], [66, 40], [60, 30], [55, 21], [54, 14],
-          [49, 24], [46, 31], [41, 29], [38, 24], [41, 19], [45, 13], [40, 18],
-          [38, 15], [44, 9], [43, 3], [39, 0], [36, -5],
-        ],
-      },
-      {
-        name: 'UK',
-        highlight: false,
-        coords: [[50, -5], [51, 1], [55, -1], [58, -3], [57, -6], [53, -5]],
-      },
-      {
-        name: 'Africa',
-        highlight: false,
-        coords: [
-          [35, -6], [37, 10], [32, 15], [31, 32], [22, 37], [12, 44], [11, 51],
-          [2, 45], [-10, 40], [-25, 33], [-34, 25], [-34, 18], [-22, 14],
-          [-6, 12], [4, 9], [5, -4], [10, -15], [16, -17], [28, -13],
-        ],
-      },
-      {
-        name: 'Madagascar',
-        highlight: false,
-        coords: [[-13, 49], [-18, 49], [-25, 47], [-24, 44], [-16, 45]],
-      },
-      {
-        name: 'Asia',
-        highlight: false,
-        coords: [
-          [41, 29], [42, 41], [37, 36], [31, 35], [14, 44], [17, 54], [24, 58],
-          [26, 56], [25, 66], [21, 72], [8, 77], [16, 81], [22, 88], [16, 97],
-          [2, 103], [10, 106], [17, 108], [21, 109], [23, 117], [31, 122],
-          [35, 120], [40, 121], [38, 126], [35, 129], [42, 131], [53, 141],
-          [60, 163], [67, 178], [72, 140], [74, 105], [70, 70], [66, 42],
-          [55, 50], [47, 46], [42, 42],
-        ],
-      },
-      {
-        name: 'ChinaHighlight',
-        highlight: true,
-        accent: 'origin',
-        coords: [
-          [53, 122], [48, 134], [42, 130], [40, 124], [38, 121], [35, 120],
-          [31, 122], [23, 117], [21, 110], [19, 109], [22, 106], [23, 100],
-          [28, 97], [30, 82], [36, 75], [42, 80], [48, 87], [44, 96], [42, 112],
-          [49, 118],
-        ],
-      },
-      {
-        name: 'Japan',
-        highlight: false,
-        coords: [[31, 131], [34, 136], [36, 141], [41, 141], [44, 144], [43, 140], [36, 136], [33, 130]],
-      },
-      {
-        name: 'Australia',
-        highlight: false,
-        coords: [
-          [-12, 131], [-12, 136], [-16, 136], [-11, 142], [-20, 149], [-28, 153],
-          [-37, 150], [-38, 141], [-33, 134], [-35, 117], [-22, 114], [-16, 123],
-        ],
-      },
-    ];
-
-    // Subdividir aristas largas para que los continentes se curven suavemente sobre la esfera
-    function subdivideCoords(coords, maxStepDeg = 6) {
-      const out = [];
-      for (let i = 0; i < coords.length; i++) {
-        const a = coords[i];
-        const b = coords[(i + 1) % coords.length];
-        const dist = Math.hypot(b[0] - a[0], b[1] - a[1]);
-        const steps = Math.max(1, Math.ceil(dist / maxStepDeg));
-        for (let s = 0; s < steps; s++) {
-          const t = s / steps;
-          out.push([a[0] + (b[0] - a[0]) * t, a[1] + (b[1] - a[1]) * t]);
-        }
-      }
-      return out;
+    if (typeof window.Globe !== 'function') {
+      container.innerHTML =
+        '<div style="display:grid;place-items:center;height:100%;padding:2rem;text-align:center;color:var(--text-secondary);font-size:0.85rem;">Cargando mapa 3D satelital... Verifica tu conexión a internet para visualizar el globo WebGL.</div>';
+      return;
     }
 
-    const SUBDIVIDED_CONTINENTS = CONTINENTS.map((c) => ({
-      ...c,
-      vecs: subdivideCoords(c.coords, 6).map(([lat, lon]) => latLonToVec(lat, lon)),
-    }));
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    // Puertos marítimos reales de salida en China + puertos destino en LATAM y España
-    const HUBS = [
-      { id: 'NB', label: 'NINGBO · CHINA', lat: 29.87, lon: 121.55, primary: true, origin: true },
-      { id: 'GZ', label: 'GUANGZHOU · CHINA', lat: 22.8, lon: 113.6, primary: true, origin: true },
-      { id: 'ES', label: 'ESPAÑA (VALENCIA)', lat: 39.47, lon: -0.38, primary: true, dest: true },
-      { id: 'MX', label: 'MÉXICO (MANZANILLO)', lat: 19.05, lon: -104.32, primary: true, dest: true },
-      { id: 'CO', label: 'COLOMBIA (BUENAVENTURA)', lat: 3.88, lon: -77.07, primary: true, dest: true },
-      { id: 'PE', label: 'PERÚ (CALLAO)', lat: -12.05, lon: -77.14, primary: true, dest: true },
-      { id: 'CL', label: 'CHILE (VALPARAÍSO)', lat: -33.04, lon: -71.62, primary: true, dest: true },
-      { id: 'AR', label: 'ARGENTINA', lat: -34.6, lon: -58.38, primary: false, dest: true },
-    ];
+    // Interpolación esférica 3D real entre waypoints (cruza la línea de 180° del Pacífico sin saltos)
+    function interpolateSeaPath(waypoints, stepsPerLeg = 10, baseAlt = 0.012) {
+      const toVec = (lat, lng) => {
+        const la = (lat * Math.PI) / 180;
+        const lo = (lng * Math.PI) / 180;
+        return {
+          x: Math.cos(la) * Math.cos(lo),
+          y: Math.sin(la),
+          z: Math.cos(la) * Math.sin(lo),
+        };
+      };
+      const toLatLng = (v) => {
+        const lat = (Math.asin(Math.max(-1, Math.min(1, v.y))) * 180) / Math.PI;
+        const lng = (Math.atan2(v.z, v.x) * 180) / Math.PI;
+        return { lat, lng };
+      };
 
-    // Subdividir ruta marítima sobre la esfera usando vectores 3D (cruza la línea de 180° del Pacífico sin errores)
-    function buildSeaRouteVecs(waypoints, stepsPerLeg = 14) {
-      const vecs = [];
-      for (let i = 0; i < waypoints.length - 1; i++) {
-        const a = latLonToVec(waypoints[i][0], waypoints[i][1]);
-        const b = latLonToVec(waypoints[i + 1][0], waypoints[i + 1][1]);
+      const pts = [];
+      const totalLegs = waypoints.length - 1;
+      for (let i = 0; i < totalLegs; i++) {
+        const a = toVec(waypoints[i][0], waypoints[i][1]);
+        const b = toVec(waypoints[i + 1][0], waypoints[i + 1][1]);
         for (let s = 0; s < stepsPerLeg; s++) {
           const t = s / stepsPerLeg;
           let x = a.x * (1 - t) + b.x * t;
           let y = a.y * (1 - t) + b.y * t;
           let z = a.z * (1 - t) + b.z * t;
           const len = Math.hypot(x, y, z) || 1;
-          // Elevación suave sobre el océano para visibilidad 3D
-          vecs.push({ x: (x / len) * 1.015, y: (y / len) * 1.015, z: (z / len) * 1.015 });
+          const globalT = (i + t) / totalLegs;
+          const alt = baseAlt + Math.sin(globalT * Math.PI) * 0.018;
+          const ll = toLatLng({ x: x / len, y: y / len, z: z / len });
+          pts.push({ lat: ll.lat, lng: ll.lng, alt });
         }
       }
-      const last = latLonToVec(waypoints[waypoints.length - 1][0], waypoints[waypoints.length - 1][1], 1.015);
-      vecs.push(last);
-      return vecs;
+      const last = waypoints[waypoints.length - 1];
+      pts.push({ lat: last[0], lng: last[1], alt: baseAlt });
+      return pts;
     }
 
-    // Rutas marítimas reales de buques portacontenedores desde Ningbo y Guangzhou
-    const ROUTES = [
+    // Puertos reales de salida (China) y llegada (LATAM & España)
+    const PORTS = [
+      { id: 'NB', label: 'NINGBO · CHINA', lat: 29.87, lng: 121.55, type: 'origin', ringMax: 5.5 },
+      { id: 'GZ', label: 'GUANGZHOU · CHINA', lat: 22.8, lng: 113.6, type: 'origin', ringMax: 5.5 },
+      { id: 'MX', label: 'MANZANILLO · MX', lat: 19.05, lng: -104.32, type: 'dest', ringMax: 3.8 },
+      { id: 'CO', label: 'BUENAVENTURA · CO', lat: 3.88, lng: -77.07, type: 'dest', ringMax: 4.5 },
+      { id: 'PE', label: 'CALLAO · PE', lat: -12.05, lng: -77.14, type: 'dest', ringMax: 3.6 },
+      { id: 'CL', label: 'VALPARAÍSO · CL', lat: -33.04, lng: -71.62, type: 'dest', ringMax: 3.8 },
+      { id: 'AR', label: 'BUENOS AIRES · AR', lat: -34.6, lng: -58.38, type: 'dest', ringMax: 3.4 },
+      { id: 'ES', label: 'VALENCIA · ESPAÑA', lat: 39.47, lng: -0.38, type: 'dest', ringMax: 4.6 },
+    ];
+
+    // Rutas marítimas reales por el Pacífico y Canal de Suez
+    const pacificNorthCoords = [
+      [29.87, 121.55], // Ningbo
+      [30.5, 138.0],   // Sur de Japón
+      [31.5, 162.0],   // Pacífico Norte Oeste
+      [29.0, 179.0],   // Línea 180°
+      [28.0, -168.0],  // Pacífico Norte Central
+      [24.5, -146.0],  // Pacífico Central
+      [21.2, -122.0],  // Aproximación México
+      [19.05, -104.32],// Manzanillo, México
+      [12.0, -92.0],   // Pacífico Centroamericano
+      [5.5, -81.0],    // Golfo de Panamá
+      [3.88, -77.07],  // Buenaventura, Colombia
+    ];
+
+    const pacificSouthCoords = [
+      [22.8, 113.6],   // Guangzhou (Nansha)
+      [19.5, 127.0],   // Mar de Filipinas
+      [14.0, 152.0],   // Pacífico Oeste
+      [8.5, 177.0],    // Cruce Pacífico Ecuatorial
+      [2.0, -158.0],   // Pacífico Central
+      [-4.2, -130.0],  // Pacífico Sur
+      [-9.2, -102.0],  // Aproximación Sudamérica
+      [-12.05, -77.14],// Callao, Perú
+      [-23.0, -74.5],  // Costa Pacífico Sur
+      [-33.04, -71.62],// Valparaíso, Chile
+      [-48.0, -76.0],  // Patagonia Pacífico
+      [-55.8, -68.0],  // Cabo de Hornos / Magallanes
+      [-45.0, -62.5],  // Atlántico Sur
+      [-34.6, -58.38], // Buenos Aires, Argentina
+    ];
+
+    const suezSpainCoords = [
+      [29.87, 121.55], // Ningbo
+      [22.8, 113.6],   // Guangzhou
+      [12.0, 110.5],   // Mar de China Meridional
+      [1.3, 103.8],    // Singapur / Estrecho de Malaca
+      [6.0, 80.5],     // Océano Índico (Sri Lanka)
+      [12.0, 56.0],    // Mar Arábigo
+      [12.6, 44.0],    // Golfo de Adén
+      [21.0, 38.2],    // Mar Rojo
+      [30.5, 32.3],    // Canal de Suez
+      [35.2, 18.0],    // Mediterráneo Central
+      [39.47, -0.38],  // Valencia, España
+    ];
+
+    // Doble capa por ruta: carril base luminoso + flujo animado de buques en naranja 1688
+    const PATHS_DATA = [
       {
-        name: 'Ningbo -> Pacífico Norte -> México -> Colombia',
-        main: true,
-        offset: 0.0,
-        vecs: buildSeaRouteVecs([
-          [29.87, 121.55], // Ningbo
-          [30.5, 138.0],   // Sur de Japón
-          [31.5, 162.0],   // Pacífico Norte Oeste
-          [28.5, -172.0],  // Cruce Pacífico (180°)
-          [24.5, -146.0],  // Pacífico Central
-          [21.0, -122.0],  // Aproximación México
-          [19.05, -104.32],// Manzanillo, México
-          [12.0, -92.0],   // Pacífico Centroamericano
-          [5.5, -81.0],    // Golfo de Panamá
-          [3.88, -77.07],  // Buenaventura, Colombia
-        ]),
+        name: 'Corredor Base · Pacífico Norte',
+        points: interpolateSeaPath(pacificNorthCoords, 8, 0.008),
+        color: ['rgba(255, 80, 0, 0.34)', 'rgba(255, 140, 60, 0.34)'],
+        stroke: 1.5,
+        dashLen: 1,
+        dashGap: 0,
+        animTime: 0,
       },
       {
-        name: 'Guangzhou -> Pacífico -> Perú -> Chile -> Argentina',
-        main: true,
-        offset: 0.34,
-        vecs: buildSeaRouteVecs([
-          [22.8, 113.6],   // Guangzhou (Nansha)
-          [19.5, 127.0],   // Mar de Filipinas
-          [14.0, 152.0],   // Pacífico Oeste
-          [8.0, 178.0],    // Cruce Pacífico Ecuatorial
-          [1.5, -156.0],   // Pacífico Central
-          [-4.5, -128.0],  // Pacífico Sur
-          [-9.5, -100.0],  // Aproximación Sudamérica
-          [-12.05, -77.14],// Callao, Perú
-          [-23.0, -74.5],  // Costa Pacífico Sur
-          [-33.04, -71.62],// Valparaíso, Chile
-          [-48.0, -76.0],  // Patagonia Pacífico
-          [-55.5, -68.0],  // Cabo de Hornos / Magallanes
-          [-45.0, -62.5],  // Atlántico Sur
-          [-34.6, -58.38], // Buenos Aires, Argentina
-        ]),
+        name: 'Corredor Base · Pacífico Sur',
+        points: interpolateSeaPath(pacificSouthCoords, 8, 0.008),
+        color: ['rgba(255, 80, 0, 0.34)', 'rgba(255, 140, 60, 0.34)'],
+        stroke: 1.5,
+        dashLen: 1,
+        dashGap: 0,
+        animTime: 0,
       },
       {
-        name: 'Ningbo -> Guangzhou -> Malaca -> Índico -> Suez -> España',
-        main: true,
-        offset: 0.68,
-        vecs: buildSeaRouteVecs([
-          [29.87, 121.55], // Ningbo
-          [22.8, 113.6],   // Guangzhou
-          [12.0, 110.5],   // Mar de China Meridional
-          [1.3, 103.8],    // Singapur / Estrecho de Malaca
-          [6.0, 80.5],     // Océano Índico (Sri Lanka)
-          [12.0, 56.0],    // Mar Arábigo
-          [12.6, 44.0],    // Golfo de Adén
-          [21.0, 38.2],    // Mar Rojo
-          [30.5, 32.3],    // Canal de Suez
-          [35.2, 18.0],    // Mediterráneo Central
-          [39.47, -0.38],  // Valencia, España
-        ]),
+        name: 'Corredor Base · Suez España',
+        points: interpolateSeaPath(suezSpainCoords, 8, 0.008),
+        color: ['rgba(255, 80, 0, 0.34)', 'rgba(52, 211, 153, 0.32)'],
+        stroke: 1.5,
+        dashLen: 1,
+        dashGap: 0,
+        animTime: 0,
+      },
+      {
+        name: 'Ningbo → Pacífico → México & Colombia',
+        points: interpolateSeaPath(pacificNorthCoords, 10, 0.015),
+        color: ['#FF5000', '#FFD2A6'],
+        stroke: 2.8,
+        dashLen: 0.22,
+        dashGap: 0.14,
+        animTime: reducedMotion ? 0 : 5600,
+      },
+      {
+        name: 'Guangzhou → Pacífico → Perú, Chile & Argentina',
+        points: interpolateSeaPath(pacificSouthCoords, 10, 0.015),
+        color: ['#FF6A00', '#34D399'],
+        stroke: 2.8,
+        dashLen: 0.22,
+        dashGap: 0.14,
+        animTime: reducedMotion ? 0 : 6400,
+      },
+      {
+        name: 'Ningbo / Guangzhou → Malaca → Suez → Valencia (España)',
+        points: interpolateSeaPath(suezSpainCoords, 10, 0.015),
+        color: ['#FF5000', '#34D399'],
+        stroke: 2.8,
+        dashLen: 0.24,
+        dashGap: 0.14,
+        animTime: reducedMotion ? 0 : 5800,
       },
     ];
 
-    // Coordenadas geográficas exactas (sin espejo): +lon = Este (derecha), +lat = Norte (arriba)
-    function latLonToVec(latDeg, lonDeg, scale = 1) {
-      const lat = (latDeg * Math.PI) / 180;
-      const lon = (lonDeg * Math.PI) / 180;
-      return {
-        x: Math.cos(lat) * Math.sin(lon) * scale,
-        y: -Math.sin(lat) * scale,
-        z: Math.cos(lat) * Math.cos(lon) * scale,
-      };
-    }
+    const w = stage.clientWidth || 460;
+    const h = stage.clientHeight || 460;
 
-    function rotatePoint(p) {
-      const cosY = Math.cos(rotY);
-      const sinY = Math.sin(rotY);
-      const x1 = p.x * cosY + p.z * sinY;
-      const z1 = -p.x * sinY + p.z * cosY;
+    // Inicialización WebGL (Three.js + textura satelital nocturna real NASA)
+    const world = new window.Globe(container)
+      .width(w)
+      .height(h)
+      .backgroundColor('rgba(0, 0, 0, 0)')
+      .globeImageUrl('https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-night.jpg')
+      .bumpImageUrl('https://cdn.jsdelivr.net/npm/three-globe/example/img/earth-topology.png')
+      .showAtmosphere(true)
+      .atmosphereColor('#FF5000')
+      .atmosphereAltitude(0.22)
 
-      const cosX = Math.cos(rotX);
-      const sinX = Math.sin(rotX);
-      const y2 = p.y * cosX - z1 * sinX;
-      const z2 = p.y * sinX + z1 * cosX;
+      // Carriles marítimos 3D animados
+      .pathsData(PATHS_DATA)
+      .pathPoints((d) => d.points)
+      .pathPointLat((p) => p.lat)
+      .pathPointLng((p) => p.lng)
+      .pathPointAlt((p) => p.alt)
+      .pathColor((d) => d.color)
+      .pathStroke((d) => d.stroke)
+      .pathDashLength((d) => d.dashLen)
+      .pathDashGap((d) => d.dashGap)
+      .pathDashAnimateTime((d) => d.animTime)
+      .pathTransitionDuration(0)
 
-      return { x: x1, y: y2, z: z2 };
-    }
+      // Balizas verticales 3D en cada puerto
+      .pointsData(PORTS)
+      .pointLat((d) => d.lat)
+      .pointLng((d) => d.lng)
+      .pointColor((d) => (d.type === 'origin' ? '#FF5000' : '#34D399'))
+      .pointAltitude((d) => (d.type === 'origin' ? 0.08 : 0.055))
+      .pointRadius((d) => (d.type === 'origin' ? 0.55 : 0.42))
 
-    function projectOrtho(rp) {
-      return {
-        x: width / 2 + rp.x * radius,
-        y: height / 2 + rp.y * radius,
-        z: rp.z,
-      };
-    }
+      // Anillos radar pulsantes sobre puertos
+      .ringsData(PORTS)
+      .ringLat((d) => d.lat)
+      .ringLng((d) => d.lng)
+      .ringAltitude(0.012)
+      .ringColor((d) =>
+        d.type === 'origin'
+          ? (t) => `rgba(255, 80, 0, ${(1 - t).toFixed(2)})`
+          : (t) => `rgba(52, 211, 153, ${(1 - t).toFixed(2)})`
+      )
+      .ringMaxRadius((d) => d.ringMax)
+      .ringPropagationSpeed(2.2)
+      .ringRepeatPeriod(1500)
 
-    // Dibuja meridianos y paralelos reales en la cara visible de la esfera
-    function drawGraticule() {
-      ctx.lineWidth = 0.75;
-
-      // Paralelos (-60, -30, 0, +30, +60)
-      for (let lat = -60; lat <= 60; lat += 30) {
-        ctx.beginPath();
-        let penDown = false;
-        for (let lon = -180; lon <= 180; lon += 6) {
-          const rp = rotatePoint(latLonToVec(lat, lon));
-          if (rp.z > 0) {
-            const p = projectOrtho(rp);
-            if (!penDown) {
-              ctx.moveTo(p.x, p.y);
-              penDown = true;
-            } else {
-              ctx.lineTo(p.x, p.y);
-            }
-          } else {
-            penDown = false;
-          }
-        }
-        ctx.strokeStyle = lat === 0 ? 'rgba(255, 110, 40, 0.24)' : 'rgba(255, 255, 255, 0.08)';
-        ctx.stroke();
-      }
-
-      // Meridianos cada 30°
-      for (let lon = -180; lon < 180; lon += 30) {
-        ctx.beginPath();
-        let penDown = false;
-        for (let lat = -84; lat <= 84; lat += 6) {
-          const rp = rotatePoint(latLonToVec(lat, lon));
-          if (rp.z > 0) {
-            const p = projectOrtho(rp);
-            if (!penDown) {
-              ctx.moveTo(p.x, p.y);
-              penDown = true;
-            } else {
-              ctx.lineTo(p.x, p.y);
-            }
-          } else {
-            penDown = false;
-          }
-        }
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.075)';
-        ctx.stroke();
-      }
-    }
-
-    // Test clásico ray-casting punto-en-polígono para rellenar los continentes con matriz de puntos 3D
-    function pointInPoly(lat, lon, poly) {
-      let inside = false;
-      for (let i = 0, j = poly.length - 1; i < poly.length; j = i++) {
-        const yi = poly[i][0], xi = poly[i][1];
-        const yj = poly[j][0], xj = poly[j][1];
-        const intersect =
-          yi > lat !== yj > lat &&
-          lon < ((xj - xi) * (lat - yi)) / (yj - yi + 1e-9) + xi;
-        if (intersect) inside = !inside;
-      }
-      return inside;
-    }
-
-    // Genera una sola vez (~2ms) la malla de puntos sobre tierra firme (estilo globo Stripe/GitHub)
-    const LAND_DOTS = [];
-    (function buildLandDots() {
-      const latStep = window.innerWidth < 768 ? 5 : 4;
-      for (let lat = -58; lat <= 78; lat += latStep) {
-        const cosLat = Math.max(0.22, Math.cos((lat * Math.PI) / 180));
-        const lonStep = latStep / cosLat;
-        for (let lon = -180; lon < 180; lon += lonStep) {
-          let matchedAccent = null;
-          for (let c = 0; c < CONTINENTS.length; c++) {
-            if (pointInPoly(lat, lon, CONTINENTS[c].coords)) {
-              const acc = CONTINENTS[c].accent || 'land';
-              // Priorizar el resaltado de China sobre Asia general
-              if (acc === 'origin') {
-                matchedAccent = 'origin';
-                break;
-              }
-              matchedAccent = acc;
-            }
-          }
-          if (matchedAccent) {
-            LAND_DOTS.push({
-              vec: latLonToVec(lat, lon),
-              accent: matchedAccent,
-            });
-          }
-        }
-      }
-    })();
-
-    // Dibuja la masa terrestre (puntos 3D + contornos costeros nítidos sin cortes)
-    function drawContinents() {
-      // 1. Matriz de puntos 3D sobre cada continente (cero artefactos en el horizonte)
-      for (let i = 0; i < LAND_DOTS.length; i++) {
-        const dot = LAND_DOTS[i];
-        const rp = rotatePoint(dot.vec);
-        if (rp.z <= 0.02) continue;
-        const p = projectOrtho(rp);
-        const depthAlpha = 0.25 + rp.z * 0.75;
-        const size = dot.accent === 'origin' ? 2.1 : 1.7;
-
-        if (dot.accent === 'origin') {
-          ctx.fillStyle = `rgba(255, 88, 12, ${depthAlpha.toFixed(2)})`;
-        } else if (dot.accent === 'dest') {
-          ctx.fillStyle = `rgba(255, 168, 110, ${(depthAlpha * 0.85).toFixed(2)})`;
-        } else {
-          ctx.fillStyle = `rgba(220, 226, 238, ${(depthAlpha * 0.55).toFixed(2)})`;
-        }
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      // 2. Contorno costero nítido de cada continente sobre la cara visible
-      SUBDIVIDED_CONTINENTS.forEach((cont) => {
-        const rotated = cont.vecs.map(rotatePoint);
-        ctx.beginPath();
-        let penDown = false;
-        for (let i = 0; i <= rotated.length; i++) {
-          const rp = rotated[i % rotated.length];
-          if (rp.z > 0.02) {
-            const p = projectOrtho(rp);
-            if (!penDown) {
-              ctx.moveTo(p.x, p.y);
-              penDown = true;
-            } else {
-              ctx.lineTo(p.x, p.y);
-            }
-          } else {
-            penDown = false;
-          }
-        }
-        ctx.strokeStyle =
-          cont.accent === 'origin'
-            ? 'rgba(255, 106, 0, 0.95)'
-            : cont.accent === 'dest'
-            ? 'rgba(255, 155, 95, 0.72)'
-            : 'rgba(255, 255, 255, 0.32)';
-        ctx.lineWidth = cont.accent === 'origin' ? 1.55 : 1;
-        ctx.stroke();
-      });
-    }
-
-    // Dibuja rutas marítimas oceánicas reales (Pacífico y Suez) con buques/paquetes luminosos
-    function drawArc(route) {
-      const pts = route.vecs.map((v) => projectOrtho(rotatePoint(v)));
-
-      ctx.beginPath();
-      let penDown = false;
-      for (let i = 0; i < pts.length; i++) {
-        if (pts[i].z > 0.02) {
-          if (!penDown) {
-            ctx.moveTo(pts[i].x, pts[i].y);
-            penDown = true;
-          } else {
-            ctx.lineTo(pts[i].x, pts[i].y);
-          }
-        } else {
-          penDown = false;
-        }
-      }
-      ctx.strokeStyle = 'rgba(255, 92, 16, 0.82)';
-      ctx.lineWidth = 1.75;
-      ctx.stroke();
-
-      // Dos buques/paquetes luminosos navegando a lo largo de cada corredor marítimo
-      [0, 0.5].forEach((phaseShift) => {
-        const prog = (packetProgress + route.offset + phaseShift) % 1;
-        const idx = Math.floor(prog * (pts.length - 1));
-        const pkt = pts[idx];
-        if (pkt && pkt.z > 0.04) {
-          ctx.beginPath();
-          ctx.arc(pkt.x, pkt.y, 3.6, 0, Math.PI * 2);
-          ctx.fillStyle = '#FFD0AD';
-          ctx.shadowColor = '#FF5000';
-          ctx.shadowBlur = 14;
-          ctx.fill();
-          ctx.shadowBlur = 0;
-        }
-      });
-    }
-
-    function render() {
-      if (!isVisible || document.hidden) {
-        rafId = null;
-        return;
-      }
-
-      ctx.clearRect(0, 0, width, height);
-      const cx = width / 2;
-      const cy = height / 2;
-
-      if (!reducedMotion) {
-        if (!isDragging) rotY += autoSpeed;
-        packetProgress = (packetProgress + 0.0065) % 1;
-      }
-
-      // 1. Halo atmosférico exterior del planeta Tierra
-      const atmoGrad = ctx.createRadialGradient(cx, cy, radius * 0.88, cx, cy, radius * 1.18);
-      atmoGrad.addColorStop(0, 'rgba(255, 80, 0, 0.16)');
-      atmoGrad.addColorStop(0.55, 'rgba(255, 80, 0, 0.05)');
-      atmoGrad.addColorStop(1, 'rgba(255, 80, 0, 0)');
-      ctx.fillStyle = atmoGrad;
-      ctx.beginPath();
-      ctx.arc(cx, cy, radius * 1.18, 0, Math.PI * 2);
-      ctx.fill();
-
-      // 2. Esfera oceánica 3D sombreada (da volumen esférico inmediato)
-      ctx.save();
-      ctx.beginPath();
-      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-      ctx.clip();
-
-      const sphereGrad = ctx.createRadialGradient(
-        cx - radius * 0.35,
-        cy - radius * 0.32,
-        radius * 0.12,
-        cx,
-        cy,
-        radius
-      );
-      sphereGrad.addColorStop(0, '#1a1b24');
-      sphereGrad.addColorStop(0.55, '#0d1018');
-      sphereGrad.addColorStop(1, '#050609');
-      ctx.fillStyle = sphereGrad;
-      ctx.fillRect(cx - radius, cy - radius, radius * 2, radius * 2);
-
-      // 3. Meridianos, paralelos y continentes reales dentro de la esfera
-      drawGraticule();
-      drawContinents();
-
-      // Brillo sutil del borde (Fresnel / luz atmosférica)
-      const rimGrad = ctx.createRadialGradient(cx, cy, radius * 0.72, cx, cy, radius);
-      rimGrad.addColorStop(0, 'rgba(0,0,0,0)');
-      rimGrad.addColorStop(0.84, 'rgba(255, 80, 0, 0.08)');
-      rimGrad.addColorStop(1, 'rgba(255, 110, 40, 0.32)');
-      ctx.fillStyle = rimGrad;
-      ctx.fillRect(cx - radius, cy - radius, radius * 2, radius * 2);
-
-      ctx.restore();
-
-      // Borde nítido del planeta
-      ctx.beginPath();
-      ctx.arc(cx, cy, radius, 0, Math.PI * 2);
-      ctx.strokeStyle = 'rgba(255, 110, 40, 0.38)';
-      ctx.lineWidth = 1.25;
-      ctx.stroke();
-
-      // 4. Rutas marítimas elevadas por encima de la superficie del planeta
-      ROUTES.forEach(drawArc);
-
-      // 5. Nodos de hubs y etiquetas legibles con pastilla oscura
-      ctx.font = '700 9.5px "JetBrains Mono", monospace';
-      HUBS.forEach((hub) => {
-        const rp = rotatePoint(latLonToVec(hub.lat, hub.lon));
-        if (rp.z < 0.06) return;
-        const p = projectOrtho(rp);
-        const nodeColor = hub.dest ? '#34D399' : '#FF5000';
-
-        // Anillo pulsante en puertos principales
-        if (hub.primary) {
-          const pulseR = 5 + ((packetProgress * 14) % 7);
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, pulseR, 0, Math.PI * 2);
-          ctx.strokeStyle = hub.dest ? 'rgba(52, 211, 153, 0.32)' : 'rgba(255, 80, 0, 0.42)';
-          ctx.lineWidth = 1;
-          ctx.stroke();
-        }
-
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, hub.primary ? 4.2 : 2.8, 0, Math.PI * 2);
-        ctx.fillStyle = nodeColor;
-        ctx.shadowColor = nodeColor;
-        ctx.shadowBlur = 12;
-        ctx.fill();
-        ctx.shadowBlur = 0;
-
-        if (hub.primary) {
-          const textW = ctx.measureText(hub.label).width;
-          const bx = p.x + 7;
-          const by = p.y - 8;
-          ctx.fillStyle = 'rgba(7, 8, 10, 0.78)';
-          ctx.fillRect(bx - 3, by, textW + 6, 14);
-          ctx.fillStyle = '#F4F4F6';
-          ctx.fillText(hub.label, bx, by + 10);
-        }
+      // Etiquetas glassmorphic 3D ancladas a puertos clave
+      .htmlElementsData(PORTS)
+      .htmlLat((d) => d.lat)
+      .htmlLng((d) => d.lng)
+      .htmlAltitude((d) => (d.type === 'origin' ? 0.085 : 0.06))
+      .htmlElement((d) => {
+        const el = document.createElement('div');
+        el.className = `globe-port-tag ${d.type === 'origin' ? 'is-origin' : ''}`;
+        el.innerHTML = `<span class="globe-port-dot"></span><span>${d.label}</span>`;
+        el.addEventListener('click', () => {
+          world.pointOfView({ lat: d.lat, lng: d.lng, altitude: 1.75 }, 1100);
+        });
+        return el;
       });
 
-      rafId = requestAnimationFrame(render);
+    // Ajustar calidad WebGL para 60 FPS en móvil
+    const renderer = world.renderer();
+    if (renderer) {
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     }
 
-    function resize() {
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      width = stage.clientWidth;
-      height = stage.clientHeight;
-      radius = Math.min(width, height) * 0.37;
-      canvas.width = Math.floor(width * dpr);
-      canvas.height = Math.floor(height * dpr);
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    // Configurar controles orbitales (sin secuestrar el scroll vertical de la página)
+    const controls = world.controls();
+    if (controls) {
+      controls.enableZoom = false;
+      controls.enablePan = false;
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.08;
+      controls.autoRotate = !reducedMotion;
+      controls.autoRotateSpeed = 0.42;
     }
 
-    function start() {
-      if (!rafId && isVisible && !document.hidden) {
-        rafId = requestAnimationFrame(render);
-      }
-    }
+    // Presets de cámara cinematográfica
+    const VIEWS = {
+      pacific: {
+        pov: { lat: 6, lng: -145, altitude: 2.15 },
+        label: 'PACÍFICO · NINGBO / GUANGZHOU → LATAM',
+      },
+      china: {
+        pov: { lat: 24, lng: 116, altitude: 1.55 },
+        label: 'ORIGEN CHINA · NINGBO & GUANGZHOU',
+      },
+      spain: {
+        pov: { lat: 26, lng: 42, altitude: 2.05 },
+        label: 'SUEZ · CHINA → VALENCIA (ESPAÑA)',
+      },
+    };
 
-    // Permitir girar el globo arrastrándolo con mouse o dedo
-    stage.style.cursor = 'grab';
-    stage.addEventListener('pointerdown', (e) => {
-      isDragging = true;
-      lastPointerX = e.clientX;
-      lastPointerY = e.clientY;
-      stage.style.cursor = 'grabbing';
+    // Vista inicial sobre el Pacífico mostrando China y Latinoamérica
+    world.pointOfView(VIEWS.pacific.pov, 0);
+
+    // Botones HUD de enfoque rápido
+    let resumeTimer = null;
+    stage.querySelectorAll('[data-globe-view]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const key = btn.getAttribute('data-globe-view');
+        const cfgView = VIEWS[key];
+        if (!cfgView) return;
+
+        stage.querySelectorAll('[data-globe-view]').forEach((b) => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+        if (routeIndicator) routeIndicator.textContent = cfgView.label;
+
+        if (controls) controls.autoRotate = false;
+        world.pointOfView(cfgView.pov, 1250);
+
+        clearTimeout(resumeTimer);
+        if (!reducedMotion && controls) {
+          resumeTimer = setTimeout(() => {
+            controls.autoRotate = true;
+          }, 7000);
+        }
+      });
     });
 
-    window.addEventListener('pointermove', (e) => {
-      if (!isDragging) return;
-      const dx = e.clientX - lastPointerX;
-      const dy = e.clientY - lastPointerY;
-      lastPointerX = e.clientX;
-      lastPointerY = e.clientY;
-      rotY += dx * 0.008;
-      rotX = Math.max(-0.85, Math.min(0.85, rotX + dy * 0.006));
+    // Resize responsivo automático
+    const ro = new ResizeObserver((entries) => {
+      const rect = entries[0]?.contentRect;
+      if (!rect || rect.width < 10 || rect.height < 10) return;
+      world.width(rect.width).height(rect.height);
     });
+    ro.observe(stage);
 
-    window.addEventListener('pointerup', () => {
-      if (isDragging) {
-        isDragging = false;
-        stage.style.cursor = 'grab';
-      }
-    });
-
-    const observer = new IntersectionObserver(
+    // Pausar rotación cuando el Hero sale de pantalla para cuidar batería en móvil
+    const io = new IntersectionObserver(
       (entries) => {
-        isVisible = entries[0]?.isIntersecting ?? true;
-        if (isVisible) start();
+        const visible = entries[0]?.isIntersecting ?? true;
+        if (controls && !reducedMotion) {
+          controls.autoRotate = visible;
+        }
       },
       { threshold: 0.05 }
     );
-    observer.observe(stage);
-
-    document.addEventListener('visibilitychange', () => {
-      if (!document.hidden) start();
-    });
-
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(resize, 150);
-    });
-
-    resize();
-    start();
+    io.observe(stage);
   }
 
   // ==========================================================================

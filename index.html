@@ -100,16 +100,21 @@
           </div>
         </div>
 
-        <!-- Globo Logístico 3D Wireframe: China -> Latinoamérica y España -->
-        <div id="globe-stage" class="globe-stage" aria-label="Red marítima interactiva de carga desde China hacia Latinoamérica y España">
+        <!-- Globo Terráqueo 3D WebGL (NASA Night Lights + Rutas Marítimas Pacífico & Suez) -->
+        <div id="globe-stage" class="globe-stage" aria-label="Globo terráqueo 3D interactivo de rutas marítimas desde Ningbo y Guangzhou hacia Latinoamérica y España">
           <div class="globe-hud-top">
-            <span class="hud-pill">RED MARÍTIMA 3D</span>
-            <span>CHINA → LATAM &amp; ESPAÑA</span>
+            <span class="hud-pill">GLOBO MARÍTIMO 3D</span>
+            <span id="globe-route-indicator" class="mono">PACÍFICO · NINGBO / GUANGZHOU</span>
           </div>
-          <canvas id="sourcing-globe-canvas"></canvas>
+
+          <div id="globe-viz" class="globe-viz"></div>
+
           <div class="globe-hud-bottom">
-            <span>PUERTOS: NINGBO · GUANGZHOU</span>
-            <span style="color:var(--emerald-400);">● PACÍFICO &amp; SUEZ</span>
+            <div class="globe-cam-bar" role="group" aria-label="Enfocar ruta marítima">
+              <button type="button" class="globe-cam-btn is-active" data-globe-view="pacific">Pacífico · LATAM</button>
+              <button type="button" class="globe-cam-btn" data-globe-view="china">Puertos China</button>
+              <button type="button" class="globe-cam-btn" data-globe-view="spain">Suez · España</button>
+            </div>
           </div>
         </div>
       </div>
@@ -642,7 +647,8 @@
     </button>
   </aside>
 
-  <!-- Scripts modulares (Vanilla JS · Cero dependencias pesadas) -->
+  <!-- Motor Globo Terráqueo 3D WebGL (Three.js / Globe.gl) + Scripts modulares -->
+  <script src="https://cdn.jsdelivr.net/npm/globe.gl@2.41.1/dist/globe.gl.min.js" defer></script>
   <script src="assets/js/config.js" defer></script>
   <script src="assets/js/products.js" defer></script>
   <script src="assets/js/app.js" defer></script>
