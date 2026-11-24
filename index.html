@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#07080A">
+  <title>Easy Shopping Trade Co. (CF) | Consultoría 1688 y Logística Marítima DDP</title>
+  <meta name="description" content="No generes miles. Genera millones. Consultoría de compras tecnológicas en 1688.com, validación de fábricas en China y ruta marítima DDP hacia Latinoamérica y España.">
+
+  <!-- Open Graph / Social -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Easy Shopping Trade Co. (CF) | Multiplica tu Capital Importando desde 1688">
+  <meta property="og:description" content="Validación real de fábricas en 1688, calculadora multi-moneda en tiempo real y ruta marítima DDP hacia Latinoamérica y España.">
+
+  <!-- Tipografía Awwwards: Space Grotesk + Inter + JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+
+  <!-- CSS Neo-Industrial 1688 (Cero CDN · 60 FPS) -->
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+
+  <!-- ======================================================================
+       NAVEGACIÓN GLASSMORPHISM
+       ====================================================================== -->
+  <header class="navbar">
+    <div class="container navbar-inner">
+      <a href="#hero" class="brand-lockup" aria-label="Easy Shopping Trade Co. Inicio">
+        <span class="brand-badge">CF</span>
+        <span class="brand-text">
+          <span class="brand-title">EASY SHOPPING TRADE CO.</span>
+          <span class="brand-sub">Sourcing 1688 · LATAM &amp; España</span>
+        </span>
+      </a>
+
+      <nav class="nav-links" aria-label="Navegación principal">
+        <a href="#ancla-confianza">Respaldo</a>
+        <a href="#hub-hibrido">Muro 1688</a>
+        <a href="#calculadora-ddp">Calculadora 1688</a>
+        <a href="#sistema-1688">Sistema 1688</a>
+        <a href="#prueba-social">Casos Reales</a>
+      </nav>
+
+      <div>
+        <a href="#calculadora-ddp" class="btn btn-primary btn-auto-sm btn-sm" data-magnetic="0.22">
+          Calcular Envío
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ====================================================================
+         BLOQUE 1 — HERO 100dvh · GLOBO MARÍTIMO 3D (CHINA -> LATAM & ESPAÑA)
+         ==================================================================== -->
+    <section id="hero" class="hero">
+      <video id="hero-video" class="hero-video" autoplay loop muted playsinline preload="auto"></video>
+      <div class="hero-overlay" aria-hidden="true"></div>
+
+      <div class="container hero-layout">
+        <div class="hero-copy">
+          <div class="sys-tag">
+            <span class="pulse-dot" aria-hidden="true"></span>
+            <span>[1688 // CARGA MARÍTIMA CHINA → LATAM &amp; ESPAÑA]</span>
+          </div>
+
+          <h1 class="hero-title">
+            <span class="kinetic-line"><span>No generes miles.</span></span>
+            <span class="kinetic-line"><span class="text-gradient-accent">Genera millones.</span></span>
+          </h1>
+
+          <p class="hero-subtitle">
+            Multiplica tu capital importando <strong>tecnología directo desde 1688.com</strong>. Validación de fábricas en China, control técnico de calidad y <strong>ruta marítima consolidada DDP</strong> hacia Latinoamérica y España.
+          </p>
+
+          <div class="hero-actions">
+            <a href="#hub-hibrido" class="btn btn-primary btn-auto-sm" data-magnetic="0.24">
+              Ver Muro de Oportunidades
+            </a>
+            <a href="#calculadora-ddp" class="btn btn-secondary btn-auto-sm" data-magnetic="0.24">
+              Calculadora 1688 en Vivo
+            </a>
+          </div>
+
+          <div class="hero-metrics" aria-label="Métricas de respaldo">
+            <div>
+              <span class="hero-metric-val">5+ AÑOS</span>
+              <span class="hero-metric-lbl">Trayectoria CF</span>
+            </div>
+            <div>
+              <span class="hero-metric-val">+5.000</span>
+              <span class="hero-metric-lbl">Comunidad 1688</span>
+            </div>
+            <div>
+              <span class="hero-metric-val">MARÍTIMO</span>
+              <span class="hero-metric-lbl">DDP Puerta a Puerta</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Globo Logístico 3D Wireframe: China -> Latinoamérica y España -->
+        <div id="globe-stage" class="globe-stage" aria-label="Red marítima interactiva de carga desde China hacia Latinoamérica y España">
+          <div class="globe-hud-top">
+            <span class="hud-pill">RED MARÍTIMA 3D</span>
+            <span>CHINA → LATAM &amp; ESPAÑA</span>
+          </div>
+          <canvas id="sourcing-globe-canvas"></canvas>
+          <div class="globe-hud-bottom">
+            <span>PUERTOS: NINGBO · GUANGZHOU</span>
+            <span style="color:var(--emerald-400);">● PACÍFICO &amp; SUEZ</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         BLOQUE 2 — ANCLA DE CONFIANZA (LINDA WANG + CF -> EASY SHOPPING)
+         ==================================================================== -->
+    <section id="ancla-confianza" class="section">
+      <div class="container">
+        <div class="trust-grid reveal">
+          <div class="glass-card portrait-card">
+            <img
+              id="linda-portrait-img"
+              class="portrait-img"
+              alt="Linda Wang — Easy Shopping Trade Co."
+              loading="lazy"
+            >
+            <div id="linda-portrait-fallback" class="portrait-fallback">
+              <div class="portrait-monogram">LW</div>
+              <span class="chip mono" style="margin-top:0.85rem;">assets/media/linda-wang.jpg</span>
+            </div>
+
+            <div class="portrait-caption">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:0.5rem;margin-bottom:0.4rem;">
+                <span class="chip chip-solid-1688 mono">OPERACIONES 1688</span>
+                <span class="mono" style="font-size:0.7rem;color:var(--emerald-400);">● VERIFICADO</span>
+              </div>
+              <p style="margin:0;font-family:var(--font-display);font-size:1.25rem;font-weight:700;color:var(--text-primary);">Linda Wang</p>
+              <p style="margin:0.2rem 0 0;font-size:0.82rem;color:var(--accent-light);font-weight:600;">Enlace Corporativo · Easy Shopping Trade Co.</p>
+            </div>
+          </div>
+
+          <div class="glass-card trust-copy-card">
+            <div>
+              <div class="evolution-pill">
+                <span>5 años de <strong>Compra Fácil en China (CF)</strong></span>
+                <span style="color:var(--accent);" aria-hidden="true">→</span>
+                <strong>Easy Shopping Trade Co.</strong>
+              </div>
+
+              <h2 class="section-title" style="margin-top:1.15rem;font-size:clamp(1.6rem,3.4vw,2.45rem);">
+                Pagar en 1688 ya lo hace cualquiera. <span class="text-gradient-accent">Proteger tu capital en China, no.</span>
+              </h2>
+
+              <p class="section-subtitle" style="margin-top:0.9rem;font-size:0.98rem;">
+                Que 1688 hoy acepte tarjetas internacionales no elimina el verdadero riesgo de importar tecnología: revendedores disfrazados de fábrica, lotes con fallas técnicas y envíos aéreos que destruyen tu rentabilidad.
+              </p>
+              <p class="section-subtitle" style="margin-top:0.75rem;font-size:0.98rem;">
+                Por eso evolucionamos nuestra comunidad de más de <strong style="color:#fff;">5.000 importadores</strong> hacia un Hub de consultoría y multiplicación de capital con base corporativa en Hainan: validamos tu proveedor en 1688, inspeccionamos la carga en origen y la movemos por <strong style="color:#fff;">ruta marítima DDP hacia Latinoamérica y España</strong>.
+              </p>
+            </div>
+
+            <div class="trust-seals">
+              <div class="seal-item">
+                <span class="mono" style="color:var(--accent-light);font-weight:700;font-size:0.74rem;">[01 // FÁBRICAS 1688]</span>
+                <h3 class="seal-title">Validación Real</h3>
+                <p class="seal-desc">Filtramos intermediarios y negociamos directo con fabricantes OEM/ODM en China.</p>
+              </div>
+              <div class="seal-item">
+                <span class="mono" style="color:var(--accent-light);font-weight:700;font-size:0.74rem;">[02 // CALIDAD QC]</span>
+                <h3 class="seal-title">Inspección Técnica</h3>
+                <p class="seal-desc">Verificación funcional de hardware, baterías y empaque antes de consolidar.</p>
+              </div>
+              <div class="seal-item">
+                <span class="mono" style="color:var(--accent-light);font-weight:700;font-size:0.74rem;">[03 // MARÍTIMO DDP]</span>
+                <h3 class="seal-title">Máximo Margen</h3>
+                <p class="seal-desc">Carga marítima consolidada puerta a puerta para multiplicar tu retorno sin sorpresas.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         BLOQUE 3 — MURO DE OPORTUNIDADES + CONSULTORÍA + CALCULADORA 1688
+         ==================================================================== -->
+    <section id="hub-hibrido" class="section">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="sys-tag">
+            <span class="pulse-dot" aria-hidden="true"></span>
+            <span>[1688 // RADAR DE OPORTUNIDADES &amp; CONSULTORÍA B2B]</span>
+          </div>
+          <h2 class="section-title">El Muro de Oportunidades</h2>
+          <p class="section-subtitle">
+            Productos reales auditados en <strong style="color:#fff;">1688.com</strong> comparados contra su precio actual en Mercado Libre Colombia. Desbloquea los enlaces directos de fábrica y el margen neto en ruta marítima DDP.
+          </p>
+        </div>
+
+        <!-- Selector Dual Fluido -->
+        <div class="hybrid-tabs-bar" role="tablist" aria-label="Cambiar entre Radar 1688 y Consultoría B2B">
+          <button type="button" class="hybrid-tab-btn is-active" data-hybrid-tab="radar" role="tab">
+            Muro de Oportunidades 1688 (6)
+          </button>
+          <button type="button" class="hybrid-tab-btn" data-hybrid-tab="consulting" role="tab">
+            Consultoría &amp; Sourcing B2B (4)
+          </button>
+        </div>
+
+        <!-- TAB 1: MURO DE OPORTUNIDADES CON FOTOS Y DATOS REALES -->
+        <div class="hybrid-panel is-active" data-hybrid-panel="radar">
+          <div class="status-ribbon">
+            <span class="mono" style="color:#f4f4f6;">
+              Cálculo real puesto en destino · <strong style="color:var(--accent-light);">Ruta Marítima DDP</strong> + comisiones
+            </span>
+            <div id="wall-unlock-status"></div>
+          </div>
+
+          <div class="filter-bar" role="tablist" aria-label="Filtrar oportunidades por canal">
+            <button type="button" class="filter-btn is-active" data-filter="all">Todos los productos (6)</button>
+            <button type="button" class="filter-btn" data-filter="ml">Alta Rotación · 1688 vs ML (4)</button>
+            <button type="button" class="filter-btn" data-filter="b2b">Tecnología B2B · Alto Ticket (2)</button>
+          </div>
+
+          <div id="products-grid" class="products-grid"></div>
+        </div>
+
+        <!-- TAB 2: SERVICIOS DE CONSULTORÍA B2B -->
+        <div class="hybrid-panel" data-hybrid-panel="consulting">
+          <div id="consulting-grid" class="consulting-grid"></div>
+        </div>
+
+        <!-- ================================================================
+             CALCULADORA EN TIEMPO REAL 1688 (MULTI-MONEDA + RUTA MARÍTIMA DDP)
+             ================================================================ -->
+        <div id="calculadora-ddp" class="glass-card cbm-simulator reveal">
+          <div style="margin-bottom:1.1rem;">
+            <span class="chip chip-solid-1688 mono">[CALC.1688 // COSTO TOTAL EN TIEMPO REAL]</span>
+            <h3 style="margin:0.6rem 0 0.3rem;font-family:var(--font-display);font-size:clamp(1.3rem,2.6vw,1.75rem);font-weight:700;color:var(--text-primary);">
+              Calcula el costo total de cualquier producto de 1688 en tu moneda local
+            </h3>
+            <p style="margin:0;font-size:0.88rem;color:var(--text-secondary);">
+              Pega el enlace de 1688.com, indica la variable, el precio en yuanes (¥ CNY) y las medidas del empaque. El sistema convierte todo a tu moneda e incluye <strong style="color:#fff;">flete marítimo consolidado DDP</strong> automáticamente.
+            </p>
+          </div>
+
+          <!-- Insistencia estratégica en Ruta Marítima -->
+          <div class="maritime-banner">
+            <span>
+              <strong style="color:var(--accent-light);">⚓ RUTA MARÍTIMA RECOMENDADA:</strong> Importar por mar reduce drásticamente el costo por unidad frente al aéreo y protege tu margen neto en envíos a Latinoamérica y España.
+            </span>
+            <span id="calc-currency-badge" class="chip chip-accent mono">RUTA MARÍTIMA DDP · COP</span>
+          </div>
+
+          <!-- Selector rápido de moneda local -->
+          <div>
+            <span class="field-label">1. Escoge tu moneda local (LATAM · España · USD)</span>
+            <div id="currency-pills" class="currency-pills" aria-label="Seleccionar moneda local"></div>
+          </div>
+
+          <div class="calc-layout">
+            <!-- Columna de inputs -->
+            <div class="calc-fields-grid">
+              <div>
+                <label class="field-label" for="calc-url">Enlace del producto en 1688.com</label>
+                <input
+                  id="calc-url"
+                  class="input mono"
+                  type="url"
+                  placeholder="https://detail.1688.com/offer/1073544561058.html"
+                  value="https://detail.1688.com/offer/1073544561058.html"
+                >
+              </div>
+
+              <div class="calc-fields-grid two-col">
+                <div>
+                  <label class="field-label" for="calc-variant">Variable / Modelo / Color</label>
+                  <input
+                    id="calc-variant"
+                    class="input"
+                    type="text"
+                    placeholder="Ej: 2 micrófonos · USB-C / Negro"
+                    value="Micrófono K9 Pro · 2 receptores"
+                  >
+                </div>
+                <div>
+                  <label class="field-label" for="calc-currency">País / Moneda de conversión</label>
+                  <select id="calc-currency" class="input"></select>
+                </div>
+              </div>
+
+              <div class="calc-fields-grid two-col">
+                <div>
+                  <label class="field-label" for="calc-cny">Precio en 1688 (Yuanes ¥ CNY)</label>
+                  <input id="calc-cny" class="input mono" type="number" min="0.1" step="0.5" value="17">
+                  <span id="calc-cny-preview" class="mono" style="display:block;margin-top:0.3rem;font-size:0.72rem;color:var(--accent-light);">
+                    ¥17 CNY ≈ $10.030 / und
+                  </span>
+                </div>
+                <div>
+                  <label class="field-label" for="calc-qty">Cantidad de unidades</label>
+                  <input id="calc-qty" class="input mono" type="number" min="1" step="1" value="100">
+                  <span class="mono" style="display:block;margin-top:0.3rem;font-size:0.72rem;color:var(--text-muted);">
+                    Mayor volumen = mayor rentabilidad marítima
+                  </span>
+                </div>
+              </div>
+
+              <div>
+                <span class="field-label">Medidas del empaque por unidad (centímetros)</span>
+                <div class="cbm-inputs" style="grid-template-columns:repeat(3,1fr);">
+                  <div>
+                    <label class="field-label" for="calc-l">Largo (cm)</label>
+                    <input id="calc-l" class="input mono" type="number" min="0.5" step="0.5" value="13">
+                  </div>
+                  <div>
+                    <label class="field-label" for="calc-w">Ancho (cm)</label>
+                    <input id="calc-w" class="input mono" type="number" min="0.5" step="0.5" value="9">
+                  </div>
+                  <div>
+                    <label class="field-label" for="calc-h">Alto (cm)</label>
+                    <input id="calc-h" class="input mono" type="number" min="0.5" step="0.5" value="4">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Columna de resultado en tiempo real -->
+            <div class="calc-summary-card">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:0.5rem;">
+                <span class="mono" style="font-size:0.72rem;color:var(--accent-light);font-weight:700;">DESGLOSE EN TIEMPO REAL</span>
+                <span class="chip mono">⚓ MARÍTIMO DDP</span>
+              </div>
+
+              <div class="calc-row">
+                <span>Costo mercancía en 1688</span>
+                <strong id="calc-prod-out" class="mono">$1.003.000</strong>
+              </div>
+              <div class="calc-row">
+                <span>Flete Marítimo DDP (todo incluido)</span>
+                <strong id="calc-maritime-out" class="mono">$187.200</strong>
+              </div>
+              <div class="calc-row">
+                <span>Volumen total de carga</span>
+                <strong id="calc-vol-out" class="mono">0.0468 m³ (100 unds)</strong>
+              </div>
+
+              <div class="calc-divider"></div>
+
+              <div>
+                <span class="mono" style="display:block;font-size:0.7rem;color:var(--text-secondary);text-transform:uppercase;">
+                  Costo Total Estimado (Ruta Marítima DDP)
+                </span>
+                <div id="calc-total-out" class="calc-total-price mono">$1.190.200</div>
+              </div>
+
+              <div class="calc-unit-pill">
+                <span>Costo final puesto por unidad:</span>
+                <strong id="calc-unit-out" class="mono">$11.902</strong>
+              </div>
+
+              <p style="margin:0;font-size:0.74rem;color:var(--text-secondary);line-height:1.45;">
+                Cálculo automático sobre <strong style="color:#fff;">ruta marítima consolidada DDP</strong> (la opción más rentable para escalar pedidos desde China hacia Latinoamérica y España).
+              </p>
+
+              <button type="button" id="calc-quote-btn" class="btn btn-primary btn-sm" data-magnetic="0.16">
+                Cotizar esta carga por Ruta Marítima →
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         BLOQUE 4 — EL SISTEMA 1688 (ACADEMIA INTERACTIVA · HEYGEN)
+         ==================================================================== -->
+    <section id="sistema-1688" class="section">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="sys-tag">
+            <span class="pulse-dot" aria-hidden="true"></span>
+            <span>[1688 // ACADEMIA GRATUITA]</span>
+          </div>
+          <h2 class="section-title">El Sistema 1688</h2>
+          <p class="section-subtitle">
+            5 módulos directos al grano para pasar de mirar precios en 1688.com a ejecutar importaciones tecnológicas por mar, sin perder capital en revendedores ni aduanas.
+          </p>
+        </div>
+
+        <div class="academy-grid reveal">
+          <div id="academy-stage" class="glass-card academy-stage"></div>
+          <div id="academy-playlist" class="playlist" aria-label="Lista de módulos del Sistema 1688"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         BLOQUE 5 — PRUEBA SOCIAL (VIDEOS REALES CON MUTE / UNMUTE)
+         ==================================================================== -->
+    <section id="prueba-social" class="section">
+      <div class="container">
+        <div class="section-header reveal">
+          <div class="sys-tag">
+            <span class="pulse-dot" aria-hidden="true"></span>
+            <span>[COMUNIDAD CF // RESULTADOS VERIFICADOS]</span>
+          </div>
+          <h2 class="section-title">Importadores que ya escalaron su capital</h2>
+          <p class="section-subtitle">
+            Casos reales de nuestra comunidad en líneas de tecnología y comercio mayorista. Activa el audio en cualquier video para escuchar su experiencia.
+          </p>
+        </div>
+
+        <div id="social-grid" class="social-grid reveal"></div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         BLOQUE 6 — EL EMBUDO PREMIUM B2B
+         ==================================================================== -->
+    <section id="embudo-b2b" class="section">
+      <div class="container">
+        <div class="glass-card b2b-wrapper reveal">
+          <div class="b2b-grid">
+            <div>
+              <div class="sys-tag">
+                <span class="pulse-dot" aria-hidden="true"></span>
+                <span>[ATENCIÓN PRIORITARIA B2B]</span>
+              </div>
+              <h2 class="section-title" style="font-size:clamp(1.75rem,3.6vw,2.6rem);">
+                ¿Listo para importar en serio desde 1688?
+              </h2>
+              <p class="section-subtitle" id="b2b-mode-hint">
+                Auditamos la fábrica real en 1688 / China, verificamos especificaciones técnicas y evitamos revendedores.
+              </p>
+
+              <ul class="takeaways-list" style="margin-top:1.35rem;">
+                <li>Respuesta técnica con costos cerrados en menos de 24 horas hábiles.</li>
+                <li>Ruta marítima consolidada DDP hacia Latinoamérica y España.</li>
+                <li>Ideal para distribuidores, e-commerce y empresas que escalan tecnología.</li>
+              </ul>
+
+              <div style="margin-top:1.5rem;">
+                <a data-link="whatsapp-general" href="#" target="_blank" rel="noopener" class="btn btn-secondary btn-auto-sm btn-sm" data-magnetic="0.2">
+                  Hablar directo por WhatsApp →
+                </a>
+              </div>
+            </div>
+
+            <div>
+              <div class="mode-tabs" role="tablist" aria-label="Tipo de solicitud B2B">
+                <button type="button" class="mode-tab is-active" data-b2b-mode="validacion">
+                  Validar Proveedor 1688
+                </button>
+                <button type="button" class="mode-tab" data-b2b-mode="cotizacion_ddp">
+                  Cotizar Ruta Marítima DDP
+                </button>
+              </div>
+
+              <form id="b2b-quote-form" class="form-grid">
+                <div class="form-grid two-col">
+                  <div>
+                    <label class="field-label" for="b2b-name">Tu Nombre / Empresa</label>
+                    <input id="b2b-name" class="input" type="text" placeholder="Ej: Carlos Gómez · TechStore" required>
+                  </div>
+                  <div>
+                    <label class="field-label" for="b2b-whatsapp">WhatsApp (con indicativo)</label>
+                    <input id="b2b-whatsapp" class="input mono" type="tel" placeholder="+57 300 000 0000" required>
+                  </div>
+                </div>
+
+                <div class="form-grid two-col">
+                  <div>
+                    <label class="field-label" for="b2b-email">Correo electrónico</label>
+                    <input id="b2b-email" class="input" type="email" placeholder="tu@empresa.com" required>
+                  </div>
+                  <div>
+                    <label class="field-label" for="b2b-budget">Capital estimado de compra</label>
+                    <select id="b2b-budget" class="input" required>
+                      <option value="$1.000 - $3.000 USD">$1.000 – $3.000 USD</option>
+                      <option value="$3.000 - $10.000 USD" selected>$3.000 – $10.000 USD</option>
+                      <option value="+$10.000 USD (Escala B2B)">+$10.000 USD (Escala B2B)</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div>
+                  <label class="field-label" for="b2b-details">Enlace de 1688 / Alibaba o detalle de tu carga marítima</label>
+                  <textarea id="b2b-details" class="input" placeholder="Pega aquí tu enlace de 1688, variable, cantidad y país de destino (Colombia, México, Chile, Perú, Argentina o España)..." required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary" data-magnetic="0.16">
+                  Solicitar Análisis B2B Ahora
+                </button>
+
+                <div id="b2b-feedback" class="form-feedback" role="status" aria-live="polite"></div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ======================================================================
+       BLOQUE 7 — FOOTER CORPORATIVO
+       ====================================================================== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="brand-lockup">
+            <span class="brand-badge">CF</span>
+            <span class="brand-text">
+              <span class="brand-title">EASY SHOPPING TRADE CO.</span>
+              <span class="brand-sub">Sourcing 1688 &amp; Logística Marítima DDP</span>
+            </span>
+          </div>
+          <p style="margin:1rem 0 0;max-width:26rem;font-size:0.86rem;color:var(--text-secondary);">
+            Evolución corporativa de <strong style="color:#fff;">Compra Fácil en China (CF)</strong>. Más de 5 años conectando a importadores de Latinoamérica y España con fabricantes reales de 1688 bajo ruta marítima DDP.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="footer-heading">Navegación</h3>
+          <ul class="footer-links">
+            <li><a href="#ancla-confianza">Ancla de Confianza</a></li>
+            <li><a href="#hub-hibrido">Muro de Oportunidades 1688</a></li>
+            <li><a href="#calculadora-ddp">Calculadora Multi-Moneda</a></li>
+            <li><a href="#sistema-1688">El Sistema 1688</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="footer-heading">Comunidad Oficial</h3>
+          <ul class="footer-links">
+            <li><a data-link="facebook" href="#" target="_blank" rel="noopener">Grupo de Facebook (+5.000)</a></li>
+            <li><a data-link="youtube" href="#" target="_blank" rel="noopener">Canal de YouTube CF</a></li>
+            <li><a data-link="whatsapp-general" href="#" target="_blank" rel="noopener">WhatsApp Corporativo</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 Easy Shopping Trade Co. (CF) · Base Hainan. Todos los derechos reservados.</span>
+        <span>Los márgenes y conversiones multi-moneda son estimaciones referenciales sobre ruta marítima DDP vigente.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ======================================================================
+       MODAL DE DESBLOQUEO (LINDA WANG)
+       ====================================================================== -->
+  <div id="lead-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
+    <div class="modal-dialog">
+      <button type="button" id="modal-close-btn" class="modal-close" aria-label="Cerrar ventana">×</button>
+
+      <div class="modal-video-wrap">
+        <video id="linda-modal-video" loop muted playsinline preload="none"></video>
+        <div id="linda-modal-fallback" class="modal-video-fallback">
+          <div class="portrait-monogram" style="width:3.6rem;height:3.6rem;font-size:1.1rem;margin:0 auto 0.65rem;">LW</div>
+          <p style="margin:0;font-size:0.88rem;font-weight:600;color:#fff;">
+            “Déjame tu WhatsApp y correo para enviarte el desglose técnico en PDF y desbloquear los enlaces directos de 1688.com al instante.”
+          </p>
+          <span style="display:block;margin-top:0.35rem;font-size:0.7rem;color:var(--text-muted);">
+            Video HeyGen listo en <code class="mono">assets/media/linda-modal.mp4</code>
+          </span>
+        </div>
+        <button type="button" id="modal-mute-btn" class="mute-toggle-btn" aria-label="Activar o silenciar audio"></button>
+      </div>
+
+      <div class="modal-body">
+        <span id="modal-product-context" class="chip chip-solid-1688 mono" style="margin-bottom:0.65rem;">Desbloqueo inmediato</span>
+        <h3 id="modal-title-text" class="modal-title">Desbloquea Márgenes + Enlaces 1688</h3>
+        <p class="modal-desc">
+          Verás de inmediato los costos reales de fábrica, los enlaces directos de 1688.com, el flete marítimo DDP y el ROI neto de cada producto.
+        </p>
+
+        <form id="lead-unlock-form" class="form-grid">
+          <div>
+            <label class="field-label" for="lead-email">Tu correo electrónico</label>
+            <input id="lead-email" class="input" type="email" placeholder="nombre@correo.com" required>
+          </div>
+          <div>
+            <label class="field-label" for="lead-whatsapp">Tu WhatsApp (para enviarte el PDF)</label>
+            <input id="lead-whatsapp" class="input mono" type="tel" placeholder="+57 300 000 0000" required>
+          </div>
+          <button type="submit" class="btn btn-primary">
+            Desbloquear Márgenes + Enlaces 1688
+          </button>
+          <div id="modal-feedback" class="form-feedback" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======================================================================
+       WIDGET FLOTANTE DE AVATAR CONVERSACIONAL (NARANJA 1688)
+       ====================================================================== -->
+  <aside class="avatar-widget-root" aria-label="Asistente Conversacional IA">
+    <div id="avatar-drawer" class="avatar-drawer" role="dialog" aria-label="Hablar con Especialista IA">
+      <div class="avatar-drawer-header">
+        <div style="display:flex;align-items:center;gap:0.65rem;">
+          <span class="avatar-orb" style="width:1.95rem;height:1.95rem;"></span>
+          <div style="line-height:1.15;">
+            <strong style="display:block;font-family:var(--font-display);font-size:0.88rem;color:#fff;">Linda Wang · IA</strong>
+            <span id="avatar-status-label" class="mono" style="font-size:0.64rem;color:var(--accent-light);">ESPECIALISTA 1688 · LISTA</span>
+          </div>
+        </div>
+        <button type="button" id="avatar-close-btn" class="modal-close" style="position:static;width:2rem;height:2rem;font-size:1rem;" aria-label="Minimizar asistente">×</button>
+      </div>
+
+      <div class="avatar-stage">
+        <canvas id="avatar-wave-canvas"></canvas>
+        <span class="mono" style="font-size:0.64rem;color:var(--text-muted);letter-spacing:0.06em;">
+          WEBRTC READY · HEYGEN LIVE AVATAR / REALTIME API
+        </span>
+      </div>
+
+      <div id="avatar-transcript" class="avatar-transcript" aria-live="polite"></div>
+      <div id="avatar-quick-prompts" class="avatar-quick-prompts"></div>
+
+      <form id="avatar-text-form" class="avatar-controls">
+        <button type="button" id="avatar-mic-btn" class="avatar-mic-btn" aria-label="Activar micrófono" title="Hablar por voz"></button>
+        <input id="avatar-text-input" class="input" style="min-height:2.45rem;font-size:0.82rem;padding:0.45rem 0.75rem;" type="text" placeholder="Escribe o toca el micrófono...">
+        <button type="submit" class="btn btn-primary btn-auto-sm btn-sm" style="min-height:2.45rem;padding:0.4rem 0.85rem;">
+          →
+        </button>
+      </form>
+    </div>
+
+    <button type="button" id="avatar-pill-btn" class="avatar-pill" aria-label="Abrir Especialista 1688 IA">
+      <span class="avatar-orb" aria-hidden="true"></span>
+      <span class="avatar-pill-text">
+        <span class="avatar-pill-title">Habla con Linda · IA</span>
+        <span class="avatar-pill-sub">ESPECIALISTA 1688 · EN VIVO</span>
+      </span>
+    </button>
+  </aside>
+
+  <!-- Scripts modulares (Vanilla JS · Cero dependencias pesadas) -->
+  <script src="assets/js/config.js" defer></script>
+  <script src="assets/js/products.js" defer></script>
+  <script src="assets/js/app.js" defer></script>
+</body>
+</html>
