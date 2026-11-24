@@ -1,0 +1,24 @@
+{
+	admin off
+	auto_https off
+}
+
+:{$PORT:8080} {
+	root * /srv
+	encode zstd gzip
+
+	# Caché larga para imágenes y assets estáticos
+	@static {
+		path /img/* /assets/*
+	}
+	header @static Cache-Control "public, max-age=604800"
+
+	# Cabeceras básicas de seguridad
+	header {
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "SAMEORIGIN"
+		Referrer-Policy "strict-origin-when-cross-origin"
+	}
+
+	file_server
+}
