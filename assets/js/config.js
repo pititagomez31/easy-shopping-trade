@@ -96,19 +96,18 @@ window.EST_CONFIG = {
   media: {
     heroVideo: 'assets/media/hero-robot.mp4',
     heroPoster: 'assets/media/hero-robot-poster.jpg',
-    lindaPortrait: 'assets/media/linda-wang.jpg',
-    lindaModalVideo: 'assets/media/linda-modal.mp4',
+    unlockModalVideo: 'assets/media/desbloqueo-modal.mp4',
   },
 
-  // 6. CHAT / ASESORA EN VIVO (Linda Wang — listo para conectar API de chatbot)
+  // 6. CHAT / ASESORÍA EN VIVO (Equipo Easy Shopping CF — listo para conectar API de chatbot)
   liveAvatar: {
     enabled: true,
     provider: 'demo', // Cambiar a 'api' al conectar tu endpoint de chatbot en Railway o Make
     chatEndpoint: '', // Ej: '/api/chat' o URL de webhook de Make/n8n
-    avatarName: 'Linda Wang',
-    avatarRole: 'Asesora 1688 & Logística Marítima',
+    avatarName: 'Equipo Easy Shopping (CF)',
+    avatarRole: 'Asesoría 1688 & Logística Marítima',
     greeting:
-      'Hola, soy Linda de Easy Shopping Trade Co. Te ayudo a cotizar productos de 1688 en tu moneda local con ruta marítima DDP hacia Latinoamérica y España, o a validar fábricas en China. ¿Qué producto quieres analizar?',
+      'Hola, bienvenido a Easy Shopping Trade Co. (CF). Te ayudamos a cotizar productos de 1688 en tu moneda local con ruta marítima DDP hacia Latinoamérica y España, o a validar fábricas en China. ¿Qué producto quieres analizar?',
     quickPrompts: [
       {
         label: '¿Por qué ruta marítima DDP?',

@@ -156,30 +156,75 @@
     </section>
 
     <!-- ====================================================================
-         BLOQUE 2 — ANCLA DE CONFIANZA (LINDA WANG + CF -> EASY SHOPPING)
+         BLOQUE 2 — ANCLA DE CONFIANZA (RESPALDO VERIFICABLE CF -> EASY SHOPPING)
          ==================================================================== -->
     <section id="ancla-confianza" class="section">
       <div class="container">
         <div class="trust-grid reveal">
-          <div class="glass-card portrait-card">
-            <img
-              id="linda-portrait-img"
-              class="portrait-img"
-              alt="Linda Wang — Easy Shopping Trade Co."
-              loading="lazy"
-            >
-            <div id="linda-portrait-fallback" class="portrait-fallback">
-              <div class="portrait-monogram">LW</div>
-              <span class="chip mono" style="margin-top:0.85rem;">assets/media/linda-wang.jpg</span>
+          <div class="glass-card trust-proof-card">
+            <div class="trust-proof-top">
+              <span class="chip chip-solid-1688 mono">OPERACIÓN 1688 · 5+ AÑOS</span>
+              <span class="mono" style="font-size:0.7rem;color:var(--emerald-400);">● VERIFICADO</span>
             </div>
 
-            <div class="portrait-caption">
-              <div style="display:flex;align-items:center;justify-content:space-between;gap:0.5rem;margin-bottom:0.4rem;">
-                <span class="chip chip-solid-1688 mono">OPERACIONES 1688</span>
-                <span class="mono" style="font-size:0.7rem;color:var(--emerald-400);">● VERIFICADO</span>
-              </div>
-              <p style="margin:0;font-family:var(--font-display);font-size:1.25rem;font-weight:700;color:var(--text-primary);">Linda Wang</p>
-              <p style="margin:0.2rem 0 0;font-size:0.82rem;color:var(--accent-light);font-weight:600;">Enlace Corporativo · Easy Shopping Trade Co.</p>
+            <div class="trust-proof-emblem">
+              <img
+                src="img/logo-cf.png"
+                alt="Logo oficial Easy Shopping Trade Co. CF"
+                class="trust-proof-logo"
+                width="136"
+                height="136"
+                loading="lazy"
+              >
+            </div>
+
+            <div class="trust-proof-identity">
+              <p class="trust-proof-title">Easy Shopping Trade Co. (CF)</p>
+              <p class="trust-proof-sub">Respaldo real en China → LATAM &amp; España</p>
+            </div>
+
+            <div class="trust-proof-links" aria-label="Canales verificables de Compra Fácil en China">
+              <a
+                data-link="facebook"
+                href="https://www.facebook.com/share/g/1FaqsCt2W1/"
+                target="_blank"
+                rel="noopener"
+                class="trust-proof-link"
+              >
+                <span class="trust-proof-link-meta">
+                  <strong>Grupo de Facebook (+5.000 miembros)</strong>
+                  <span>Comunidad real activa de importadores</span>
+                </span>
+                <span class="mono" style="color:var(--accent-light);">Abrir ↗</span>
+              </a>
+
+              <a
+                data-link="youtube"
+                href="https://www.youtube.com/@comprafacilen1688ychina"
+                target="_blank"
+                rel="noopener"
+                class="trust-proof-link"
+              >
+                <span class="trust-proof-link-meta">
+                  <strong>Canal de YouTube CF</strong>
+                  <span>Guías reales y casos en 1688</span>
+                </span>
+                <span class="mono" style="color:var(--accent-light);">Ver ↗</span>
+              </a>
+
+              <a
+                data-link="whatsapp-general"
+                href="https://wa.me/8615309284441"
+                target="_blank"
+                rel="noopener"
+                class="trust-proof-link"
+              >
+                <span class="trust-proof-link-meta">
+                  <strong>WhatsApp China (+86 153 0928 4441)</strong>
+                  <span>Atención directa con nuestro equipo</span>
+                </span>
+                <span class="mono" style="color:var(--emerald-400);">Chat ↗</span>
+              </a>
             </div>
           </div>
 
@@ -595,22 +640,26 @@
   </footer>
 
   <!-- ======================================================================
-       MODAL DE DESBLOQUEO (LINDA WANG)
+       MODAL DE DESBLOQUEO (EASY SHOPPING TRADE CO.)
        ====================================================================== -->
   <div id="lead-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-title-text">
     <div class="modal-dialog">
       <button type="button" id="modal-close-btn" class="modal-close" aria-label="Cerrar ventana">×</button>
 
       <div class="modal-video-wrap">
-        <video id="linda-modal-video" loop muted playsinline preload="none"></video>
-        <div id="linda-modal-fallback" class="modal-video-fallback">
-          <div class="portrait-monogram" style="width:3.6rem;height:3.6rem;font-size:1.1rem;margin:0 auto 0.65rem;">LW</div>
+        <video id="unlock-modal-video" loop muted playsinline preload="none"></video>
+        <div id="unlock-modal-fallback" class="modal-video-fallback">
+          <img
+            src="img/logo-cf.png"
+            alt="Easy Shopping Trade Co. (CF)"
+            class="modal-logo-emblem"
+            width="68"
+            height="68"
+            loading="lazy"
+          >
           <p style="margin:0;font-size:0.88rem;font-weight:600;color:#fff;">
-            “Déjame tu WhatsApp y correo para enviarte el desglose técnico en PDF y desbloquear los enlaces directos de 1688.com al instante.”
+            “Déjanos tu WhatsApp y correo para enviarte el desglose técnico en PDF y desbloquear los enlaces directos de 1688.com al instante.”
           </p>
-          <span style="display:block;margin-top:0.35rem;font-size:0.7rem;color:var(--text-muted);">
-            Video HeyGen listo en <code class="mono">assets/media/linda-modal.mp4</code>
-          </span>
         </div>
         <button type="button" id="modal-mute-btn" class="mute-toggle-btn" aria-label="Activar o silenciar audio"></button>
       </div>
@@ -641,16 +690,18 @@
   </div>
 
   <!-- ======================================================================
-       WIDGET FLOTANTE DE ASESORÍA EN VIVO (LINDA WANG)
+       WIDGET FLOTANTE DE ASESORÍA EN VIVO (EQUIPO EASY SHOPPING CF)
        ====================================================================== -->
-  <aside class="avatar-widget-root" aria-label="Asesoría en vivo con Linda Wang">
-    <div id="avatar-drawer" class="avatar-drawer" role="dialog" aria-label="Hablar con Linda Wang">
+  <aside class="avatar-widget-root" aria-label="Asesoría en vivo con Equipo Easy Shopping">
+    <div id="avatar-drawer" class="avatar-drawer" role="dialog" aria-label="Hablar con Equipo Easy Shopping (CF)">
       <div class="avatar-drawer-header">
         <div style="display:flex;align-items:center;gap:0.65rem;">
-          <span class="avatar-orb" style="width:1.95rem;height:1.95rem;"></span>
+          <span class="avatar-logo-badge avatar-logo-badge-sm" aria-hidden="true">
+            <img src="img/logo-cf.png" alt="" width="28" height="28" loading="lazy">
+          </span>
           <div style="line-height:1.15;">
-            <strong style="display:block;font-family:var(--font-display);font-size:0.88rem;color:#fff;">Linda Wang</strong>
-            <span id="avatar-status-label" class="mono" style="font-size:0.64rem;color:var(--accent-light);">ASESORA 1688 · EN LÍNEA</span>
+            <strong style="display:block;font-family:var(--font-display);font-size:0.88rem;color:#fff;">Equipo Easy Shopping (CF)</strong>
+            <span id="avatar-status-label" class="mono" style="font-size:0.64rem;color:var(--accent-light);">ASESORÍA 1688 · EN LÍNEA</span>
           </div>
         </div>
         <button type="button" id="avatar-close-btn" class="modal-close" style="position:static;width:2rem;height:2rem;font-size:1rem;" aria-label="Minimizar chat">×</button>
@@ -675,11 +726,13 @@
       </form>
     </div>
 
-    <button type="button" id="avatar-pill-btn" class="avatar-pill" aria-label="Hablar con Linda Wang">
-      <span class="avatar-orb" aria-hidden="true"></span>
+    <button type="button" id="avatar-pill-btn" class="avatar-pill" aria-label="Abrir Asesoría Easy Shopping">
+      <span class="avatar-logo-badge" aria-hidden="true">
+        <img src="img/logo-cf.png" alt="" width="34" height="34" loading="lazy">
+      </span>
       <span class="avatar-pill-text">
-        <span class="avatar-pill-title">Habla con Linda Wang</span>
-        <span class="avatar-pill-sub">ASESORA 1688 · EN LÍNEA</span>
+        <span class="avatar-pill-title">Asesoría Easy Shopping</span>
+        <span class="avatar-pill-sub">EQUIPO 1688 · EN LÍNEA</span>
       </span>
     </button>
   </aside>

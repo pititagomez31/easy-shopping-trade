@@ -713,16 +713,6 @@
       heroVideo.addEventListener('loadeddata', () => heroVideo.classList.add('is-ready'));
     }
 
-    const lindaImg = document.getElementById('linda-portrait-img');
-    const lindaFallback = document.getElementById('linda-portrait-fallback');
-    if (lindaImg && CONFIG.media.lindaPortrait) {
-      lindaImg.src = CONFIG.media.lindaPortrait;
-      lindaImg.addEventListener('load', () => {
-        lindaImg.classList.add('is-loaded');
-        if (lindaFallback) lindaFallback.style.display = 'none';
-      });
-    }
-
     document.querySelectorAll('[data-link="facebook"]').forEach((el) => {
       el.href = CONFIG.contact.facebookGroupUrl;
     });
@@ -1343,11 +1333,11 @@
       feedback.textContent = '';
     }
 
-    const modalVideo = document.getElementById('linda-modal-video');
-    const modalFallback = document.getElementById('linda-modal-fallback');
-    if (modalVideo && !modalVideoLoaded && CONFIG.media.lindaModalVideo) {
+    const modalVideo = document.getElementById('unlock-modal-video');
+    const modalFallback = document.getElementById('unlock-modal-fallback');
+    if (modalVideo && !modalVideoLoaded && CONFIG.media.unlockModalVideo) {
       modalVideoLoaded = true;
-      modalVideo.src = CONFIG.media.lindaModalVideo;
+      modalVideo.src = CONFIG.media.unlockModalVideo;
       modalVideo.addEventListener('loadeddata', () => {
         modalVideo.classList.add('is-ready');
         if (modalFallback) modalFallback.style.display = 'none';
@@ -1365,7 +1355,7 @@
 
   function closeLeadModal() {
     const modal = document.getElementById('lead-modal');
-    const modalVideo = document.getElementById('linda-modal-video');
+    const modalVideo = document.getElementById('unlock-modal-video');
     if (modalVideo) modalVideo.pause();
     if (modal) {
       modal.classList.remove('is-open');
@@ -1393,7 +1383,7 @@
     const closeBtn = document.getElementById('modal-close-btn');
     const form = document.getElementById('lead-unlock-form');
     const muteBtn = document.getElementById('modal-mute-btn');
-    const modalVideo = document.getElementById('linda-modal-video');
+    const modalVideo = document.getElementById('unlock-modal-video');
 
     if (closeBtn) closeBtn.addEventListener('click', closeLeadModal);
     if (modal) {
@@ -1449,7 +1439,7 @@
           feedback.className = 'form-feedback is-success';
           feedback.innerHTML = result.demo
             ? `✓ ¡Márgenes y enlaces 1688 desbloqueados! <br><a href="${buildWhatsAppLink(
-                `Hola Linda, acabo de desbloquear el Muro de Oportunidades para ${state.selectedProductForLead}. Mi correo es ${email}.`
+                `Hola equipo de Easy Shopping Trade Co., acabo de desbloquear el Muro de Oportunidades para ${state.selectedProductForLead}. Mi correo es ${email}.`
               )}" target="_blank" rel="noopener" style="text-decoration:underline;color:#fff;">Recibir PDF por WhatsApp →</a>`
             : '✓ ¡Datos registrados! Hemos enviado tu PDF técnico y desbloqueamos todos los enlaces de 1688.';
 
@@ -1607,10 +1597,10 @@
         'Excelente. Puedes pegar tu enlace de 1688 en la Calculadora Marítima arriba para ver el costo puesto en tu moneda local (COP, MXN, CLP, PEN, ARS, USD o EUR), o enviarnos el detalle en el formulario B2B.';
 
       setTimeout(() => {
-        setMode('speaking', 'LINDA EN LÍNEA');
+        setMode('speaking', 'EQUIPO EN LÍNEA');
         appendMessage('ai', reply);
         setTimeout(() => {
-          if (avatarState.mode === 'speaking') setMode('idle', 'ASESORA 1688 · EN LÍNEA');
+          if (avatarState.mode === 'speaking') setMode('idle', 'ASESORÍA 1688 · EN LÍNEA');
         }, 3200);
       }, 550);
     }
@@ -1696,7 +1686,7 @@
       avatarState.isOpen = false;
       drawer.classList.remove('is-open');
       pill.style.display = 'inline-flex';
-      setMode('idle', 'ASESORA 1688 · EN LÍNEA');
+      setMode('idle', 'ASESORÍA 1688 · EN LÍNEA');
     }
 
     pill.addEventListener('click', openDrawer);
@@ -1706,7 +1696,7 @@
       micBtn.innerHTML = ICONS.mic;
       micBtn.addEventListener('click', () => {
         if (avatarState.mode === 'listening') {
-          setMode('idle', 'ASESORA 1688 · EN LÍNEA');
+          setMode('idle', 'ASESORÍA 1688 · EN LÍNEA');
           return;
         }
         setMode('listening', 'ESCUCHANDO TU VOZ...');
@@ -1723,7 +1713,7 @@
             };
             rec.onerror = () => setMode('idle', 'USA EL TEXTO O PREGUNTAS RÁPIDAS');
             rec.onend = () => {
-              if (avatarState.mode === 'listening') setMode('idle', 'ASESORA 1688 · EN LÍNEA');
+              if (avatarState.mode === 'listening') setMode('idle', 'ASESORÍA 1688 · EN LÍNEA');
             };
             rec.start();
           } catch {

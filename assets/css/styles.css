@@ -937,67 +937,98 @@ a {
   }
 }
 
-.portrait-card {
+.trust-proof-card {
   position: relative;
   min-height: 24rem;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  padding: 1.4rem;
+  justify-content: space-between;
+  gap: 1.15rem;
+  padding: 1.5rem;
   background:
-    radial-gradient(circle at 50% 25%, rgba(255, 80, 0, 0.18), transparent 62%),
-    linear-gradient(160deg, #141214 0%, #07080a 100%);
+    radial-gradient(circle at 50% 24%, rgba(255, 80, 0, 0.2), transparent 60%),
+    linear-gradient(160deg, #131114 0%, #07080a 100%);
 }
 
-.portrait-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center top;
-  opacity: 0;
-  transition: opacity 0.45s ease;
-}
-
-.portrait-img.is-loaded {
-  opacity: 0.92;
-}
-
-.portrait-fallback {
-  position: absolute;
-  inset: 0;
+.trust-proof-top {
   display: flex;
-  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.trust-proof-emblem {
+  display: flex;
   align-items: center;
   justify-content: center;
-  padding-bottom: 5.5rem;
-  pointer-events: none;
+  padding-block: 0.4rem;
 }
 
-.portrait-monogram {
-  width: 6.2rem;
-  height: 6.2rem;
-  border-radius: 50%;
-  border: 1px solid var(--accent-border);
-  background: radial-gradient(circle at 30% 30%, rgba(255, 80, 0, 0.22), rgba(7, 8, 10, 0.95));
-  display: grid;
-  place-items: center;
+.trust-proof-logo {
+  width: 8.5rem;
+  height: 8.5rem;
+  object-fit: contain;
+  filter: drop-shadow(0 0 28px rgba(255, 80, 0, 0.42));
+}
+
+.trust-proof-identity {
+  text-align: center;
+}
+
+.trust-proof-title {
+  margin: 0;
   font-family: var(--font-display);
-  font-size: 1.9rem;
+  font-size: 1.32rem;
   font-weight: 700;
+  letter-spacing: -0.02em;
   color: var(--text-primary);
-  box-shadow: 0 0 36px rgba(255, 80, 0, 0.24);
 }
 
-.portrait-caption {
-  position: relative;
-  z-index: 2;
-  padding: 1.1rem;
+.trust-proof-sub {
+  margin: 0.22rem 0 0;
+  font-size: 0.84rem;
+  color: var(--accent-light);
+  font-weight: 600;
+}
+
+.trust-proof-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.trust-proof-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.72rem 0.9rem;
   border-radius: var(--radius-md);
-  background: rgba(7, 8, 10, 0.84);
+  background: rgba(255, 255, 255, 0.03);
   border: 1px solid var(--border-glass);
-  backdrop-filter: blur(12px);
+  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
+}
+
+.trust-proof-link:hover {
+  border-color: rgba(255, 80, 0, 0.45);
+  background: rgba(255, 80, 0, 0.08);
+  transform: translateY(-1px);
+}
+
+.trust-proof-link-meta {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.trust-proof-link-meta strong {
+  font-size: 0.84rem;
+  color: var(--text-primary);
+}
+
+.trust-proof-link-meta span {
+  font-size: 0.73rem;
+  color: var(--text-secondary);
 }
 
 .trust-copy-card {
@@ -2093,7 +2124,7 @@ textarea.input {
 }
 
 /* ============================================================================
-   MODAL DE DESBLOQUEO (LINDA WANG)
+   MODAL DE DESBLOQUEO (EASY SHOPPING TRADE CO.)
    ============================================================================ */
 
 .modal-backdrop {
@@ -2192,6 +2223,14 @@ textarea.input {
   max-width: 26rem;
 }
 
+.modal-logo-emblem {
+  width: 4.25rem;
+  height: 4.25rem;
+  margin: 0 auto 0.7rem;
+  object-fit: contain;
+  filter: drop-shadow(0 0 20px rgba(255, 80, 0, 0.42));
+}
+
 .modal-body {
   padding: 1.5rem;
 }
@@ -2212,7 +2251,7 @@ textarea.input {
 }
 
 /* ============================================================================
-   WIDGET FLOTANTE DE AVATAR CONVERSACIONAL (NARANJA 1688)
+   WIDGET FLOTANTE DE ASESORÍA EN VIVO (NARANJA 1688)
    ============================================================================ */
 
 .avatar-widget-root {
@@ -2255,26 +2294,28 @@ textarea.input {
   box-shadow: 0 14px 40px rgba(0, 0, 0, 0.72), 0 0 34px rgba(255, 80, 0, 0.4);
 }
 
-.avatar-orb {
+.avatar-logo-badge {
   position: relative;
-  width: 2.35rem;
-  height: 2.35rem;
+  width: 2.45rem;
+  height: 2.45rem;
   border-radius: 50%;
-  background: radial-gradient(circle at 32% 32%, #ffd2b3 0%, #ff6a00 44%, #c23900 82%, #07080a 100%);
-  box-shadow: 0 0 18px rgba(255, 80, 0, 0.7);
-  animation: orbFloat 3.2s ease-in-out infinite;
+  background: radial-gradient(circle at 32% 32%, rgba(255, 106, 0, 0.24) 0%, rgba(12, 13, 18, 0.96) 78%);
+  border: 1px solid rgba(255, 80, 0, 0.52);
+  display: grid;
+  place-items: center;
+  box-shadow: 0 0 18px rgba(255, 80, 0, 0.35);
   flex-shrink: 0;
 }
 
-@keyframes orbFloat {
-  0%, 100% {
-    transform: scale(1);
-    box-shadow: 0 0 16px rgba(255, 80, 0, 0.55);
-  }
-  50% {
-    transform: scale(1.06);
-    box-shadow: 0 0 26px rgba(255, 80, 0, 0.85);
-  }
+.avatar-logo-badge img {
+  width: 82%;
+  height: 82%;
+  object-fit: contain;
+}
+
+.avatar-logo-badge-sm {
+  width: 2.05rem;
+  height: 2.05rem;
 }
 
 .avatar-pill-text {
@@ -2436,7 +2477,6 @@ textarea.input {
     transform: none;
   }
   .pulse-dot,
-  .avatar-orb,
   .modal-dialog {
     animation: none;
   }
