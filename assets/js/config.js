@@ -23,10 +23,10 @@ window.EST_CONFIG = {
 
   // 2. CONTACTO Y COMUNIDAD
   contact: {
-    whatsappNumber: '573000000000', // Reemplazar con tu número real (sin +)
-    facebookGroupUrl: '#comunidad-facebook',
-    youtubeUrl: '#youtube-cf',
-    email: 'contacto@easyshoppingtrade.com',
+    whatsappNumber: '8615309284441',
+    facebookGroupUrl: 'https://www.facebook.com/share/g/1FaqsCt2W1/',
+    youtubeUrl: 'https://www.youtube.com/@comprafacilen1688ychina',
+    email: 'info@comprafacilenchina.com',
   },
 
   // 3. PARÁMETROS INTERNOS DE CÁLCULO (NO SE EXPONEN COMO TARIFA UNITARIA)
