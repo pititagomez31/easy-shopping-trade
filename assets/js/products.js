@@ -1,10 +1,9 @@
 /**
  * ============================================================================
- * EL MURO DE OPORTUNIDADES — DATOS REALES DE 1688 + MERCADO LIBRE COLOMBIA
+ * GANANCIAS REALES 1688 — DATOS REALES DE 1688 + MERCADO LIBRE COLOMBIA
  * ============================================================================
- * Los productos 1 al 4 utilizan exactamente los datos, imágenes, enlaces de
+ * Los 4 productos utilizan exactamente los datos, fotos reales, enlaces de
  * 1688.com y Mercado Libre Colombia suministrados por Easy Shopping Trade Co.
- * Productos 5 y 6 corresponden a opciones B2B de alto ticket.
  */
 
 window.EST_PRODUCTS = [
@@ -91,47 +90,5 @@ window.EST_PRODUCTS = [
     badge: 'Top Ventas Tech',
     specs: '12×12×5 cm · Pantalla LED gestual · Tecnología GaN carga rápida 30W',
     icon: 'cpu',
-  },
-  {
-    id: 5,
-    rank: '05',
-    name: 'Escáner 3D Portátil Industrial',
-    category: 'Hardware B2B',
-    channel: 'b2b',
-    cost1688: 558,
-    currency: 'USD',
-    dimensionsCm: { l: 34, w: 28, h: 21 },
-    cbmOverride: 0.02,
-    ddpCopOverride: 80000,
-    marketPriceCop: null,
-    imageUrl: null,
-    hoverImageUrl: null,
-    url1688: null,
-    urlMl: null,
-    variantExample: 'Kit profesional escaneo 3D de alta precisión',
-    badge: 'Alto Ticket B2B',
-    specs: 'Volumen ~0.02 m³ · Ingeniería inversa y manufactura · QC obligatorio',
-    icon: 'cube',
-  },
-  {
-    id: 6,
-    rank: '06',
-    name: 'Cámara de Visión Artificial (IA)',
-    category: 'Automatización B2B',
-    channel: 'b2b',
-    cost1688: 308,
-    currency: 'USD',
-    dimensionsCm: { l: 25, w: 20, h: 20 },
-    cbmOverride: 0.01,
-    ddpCopOverride: 40000,
-    marketPriceCop: null,
-    imageUrl: null,
-    hoverImageUrl: null,
-    url1688: null,
-    urlMl: null,
-    variantExample: 'Módulo industrial inspección óptica IA',
-    badge: 'Industria 4.0',
-    specs: 'Volumen ~0.01 m³ · Control de calidad en línea de producción · Validación fábrica',
-    icon: 'eye',
   },
 ];

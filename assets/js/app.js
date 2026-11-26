@@ -4,7 +4,7 @@
  * Incluye:
  *  - Globo Marítimo 3D Wireframe (China -> Latinoamérica & España) en Naranja 1688
  *  - Botones Magnéticos (solo escritorio pointer:fine)
- *  - Muro de Oportunidades con fotos reales, enlaces 1688/ML y márgenes bloqueados
+ *  - Ganancias Reales 1688 con fotos reales, enlaces 1688/ML y márgenes bloqueados
  *  - Calculadora 1688 Multi-Moneda en Tiempo Real (COP, MXN, CLP, PEN, ARS, USD, EUR)
  *    con Ruta Marítima DDP (tarifa interna oculta convertida a la moneda elegida)
  *  - Widget de Avatar Conversacional en Vivo (listo para HeyGen / WebRTC)
@@ -21,10 +21,9 @@
   const state = {
     unlocked: localStorage.getItem(STORAGE_KEY) === 'true',
     activeHybridTab: 'radar',
-    activeFilter: 'all',
     activeCurrency: 'COP',
     activeModuleId: CONFIG.academyModules[0]?.id || null,
-    selectedProductForLead: 'Muro de Oportunidades (Todos)',
+    selectedProductForLead: 'Ganancias Reales 1688',
     b2bMode: 'validacion',
   };
 
@@ -783,19 +782,14 @@
   }
 
   // ==========================================================================
-  // 5. MURO DE OPORTUNIDADES (DATOS REALES + FOTOS + LINKS 1688 / ML)
+  // 5. GANANCIAS REALES 1688 (DATOS REALES + FOTOS + LINKS 1688 / ML)
   // ==========================================================================
 
   function renderProducts() {
     const grid = document.getElementById('products-grid');
     if (!grid) return;
 
-    const filtered = PRODUCTS.filter((p) => {
-      if (state.activeFilter === 'all') return true;
-      return p.channel === state.activeFilter;
-    });
-
-    grid.innerHTML = filtered
+    grid.innerHTML = PRODUCTS
       .map((p) => {
         const m = calculateProductMetrics(p);
         const isUnlocked = state.unlocked;
@@ -930,8 +924,8 @@
             <div class="margin-panel ${isUnlocked ? 'is-unlocked' : 'is-locked'}">
               <div class="margin-rows">${marginHtml}</div>
               <div class="lock-overlay">
-                <span class="lock-pill">${ICONS.lock} Margen y proveedor bloqueados</span>
-                <span class="lock-hint">Desbloquea costo 1688, link directo y margen neto</span>
+                <span class="lock-pill">${ICONS.lock} ¿Cuánto ganan por venta?</span>
+                <span class="lock-hint">Desbloquea el costo real en 1688, link de fábrica y tu ganancia neta</span>
               </div>
             </div>
 
@@ -978,17 +972,6 @@
         });
       }
     }
-  }
-
-  function initProductFilters() {
-    document.querySelectorAll('[data-filter]').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        state.activeFilter = btn.getAttribute('data-filter');
-        document.querySelectorAll('[data-filter]').forEach((b) => b.classList.remove('is-active'));
-        btn.classList.add('is-active');
-        renderProducts();
-      });
-    });
   }
 
   // ==========================================================================
@@ -1322,7 +1305,7 @@
   let modalVideoLoaded = false;
 
   function openLeadModal(productName) {
-    state.selectedProductForLead = productName || 'Muro de Oportunidades';
+    state.selectedProductForLead = productName || 'Ganancias Reales 1688';
     const modal = document.getElementById('lead-modal');
     const contextLabel = document.getElementById('modal-product-context');
     const feedback = document.getElementById('modal-feedback');
@@ -1418,13 +1401,13 @@
         submitBtn.textContent = 'Desbloqueando márgenes...';
 
         const payload = {
-          tipo_formulario: 'desbloqueo_muro_1688',
-          nombre: 'Lead Muro de Oportunidades',
+          tipo_formulario: 'desbloqueo_ganancias_1688',
+          nombre: 'Lead Ganancias Reales 1688',
           email,
           whatsapp,
           producto_o_servicio: state.selectedProductForLead,
           presupuesto: 'Por definir',
-          detalle: `Desbloqueó márgenes y enlaces 1688 para: ${state.selectedProductForLead}`,
+          detalle: `Desbloqueó ganancias reales y enlaces 1688 para: ${state.selectedProductForLead}`,
           fecha: new Date().toISOString(),
           pagina: window.location.href,
         };
@@ -1439,7 +1422,7 @@
           feedback.className = 'form-feedback is-success';
           feedback.innerHTML = result.demo
             ? `✓ ¡Márgenes y enlaces 1688 desbloqueados! <br><a href="${buildWhatsAppLink(
-                `Hola equipo de Easy Shopping Trade Co., acabo de desbloquear el Muro de Oportunidades para ${state.selectedProductForLead}. Mi correo es ${email}.`
+                `Hola equipo de Easy Shopping Trade Co., acabo de desbloquear las ganancias reales de 1688 para ${state.selectedProductForLead}. Mi correo es ${email}.`
               )}" target="_blank" rel="noopener" style="text-decoration:underline;color:#fff;">Recibir PDF por WhatsApp →</a>`
             : '✓ ¡Datos registrados! Hemos enviado tu PDF técnico y desbloqueamos todos los enlaces de 1688.';
 
@@ -1753,7 +1736,6 @@
     initHybridTabs();
     renderConsultingServices();
     renderProducts();
-    initProductFilters();
     initRealtime1688Calculator();
     renderAcademy();
     renderTestimonials();
