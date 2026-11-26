@@ -1428,12 +1428,15 @@
         submitBtn.textContent = 'Desbloqueando márgenes...';
 
         const payload = {
-          event: 'unlock_opportunity_wall',
+          tipo_formulario: 'desbloqueo_muro_1688',
+          nombre: 'Lead Muro de Oportunidades',
           email,
           whatsapp,
-          product: state.selectedProductForLead,
-          timestamp: new Date().toISOString(),
-          pageUrl: window.location.href,
+          producto_o_servicio: state.selectedProductForLead,
+          presupuesto: 'Por definir',
+          detalle: `Desbloqueó márgenes y enlaces 1688 para: ${state.selectedProductForLead}`,
+          fecha: new Date().toISOString(),
+          pagina: window.location.href,
         };
 
         try {
@@ -1516,15 +1519,15 @@
       submitBtn.textContent = 'Enviando solicitud B2B...';
 
       const payload = {
-        event: 'b2b_inquiry',
-        serviceType: state.b2bMode,
-        name,
-        whatsapp,
+        tipo_formulario: state.b2bMode === 'validacion' ? 'b2b_validacion_proveedor' : 'b2b_cotizacion_maritima_ddp',
+        nombre: name,
         email,
-        budget,
-        details,
-        timestamp: new Date().toISOString(),
-        pageUrl: window.location.href,
+        whatsapp,
+        producto_o_servicio: state.b2bMode === 'validacion' ? 'Validación de Proveedor 1688' : 'Cotización Ruta Marítima DDP',
+        presupuesto: budget,
+        detalle: details,
+        fecha: new Date().toISOString(),
+        pagina: window.location.href,
       };
 
       try {

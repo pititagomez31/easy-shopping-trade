@@ -15,10 +15,10 @@ window.EST_CONFIG = {
     yearsActive: '5+',
   },
 
-  // 1. WEBHOOKS (Make.com / Zapier -> Google Sheets / CRM)
+  // 1. WEBHOOKS (Make.com -> Google Sheets / Email / CRM)
   webhooks: {
-    leadUnlockUrl: '', // Ej: 'https://hook.us1.make.com/xxxxxxxxxxxx'
-    b2bQuoteUrl: '',   // Webhook para cotizaciones B2B y auditorías
+    leadUnlockUrl: 'https://hook.eu1.make.com/csfagv398ryaq4ji3et6gwcfty29hpkl',
+    b2bQuoteUrl: 'https://hook.eu1.make.com/csfagv398ryaq4ji3et6gwcfty29hpkl',
   },
 
   // 2. CONTACTO Y COMUNIDAD
