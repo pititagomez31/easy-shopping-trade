@@ -220,11 +220,11 @@ window.EST_CONFIG = {
       tag: 'Finanzas',
       title: 'La trampa del novato: calcular tu costo real puesto en destino',
       summary:
-        'Convierte yuanes (CNY) a tu moneda local, suma la ruta marítima DDP según medidas exactas y valida tu ROI antes de comprar.',
+        'Convierte yuanes (CNY) a tu moneda local, suma la ruta marítima DDP según medidas exactas y calcula tu margen de ganancia real antes de comprar.',
       takeaways: [
         'Cómo influye el volumen del empaque en tu ganancia real al importar por mar.',
         'Uso de nuestra Calculadora 1688 multi-moneda (COP, MXN, CLP, PEN, ARS, USD, EUR).',
-        'Cómo identificar productos con ROI superior al 100%.',
+        'Cómo encontrar productos donde duplicas o triplicas tu inversión.',
       ],
       videoSrc: 'assets/media/sistema-1688-mod4.mp4',
       youtubeEmbedUrl: '',
@@ -254,7 +254,7 @@ window.EST_CONFIG = {
       category: 'Tecnología · Carga Rápida',
       clientName: 'Andrés M. — Bogotá',
       headline: 'De comprar en distribuidores locales a importar por mar directo de 1688 con 2.4x de retorno',
-      metric: '+140% ROI neto',
+      metric: '+140% de ganancia real',
       quote: '“Cambiar de aéreo a ruta marítima DDP nos disparó el margen por unidad y nos quitó el miedo a la aduana.”',
       videoSrc: 'assets/media/testimonio-tech-1.mp4',
     },
@@ -275,6 +275,63 @@ window.EST_CONFIG = {
       metric: '5 años importando',
       quote: '“Pasamos de mover inventario de bazar a escalar líneas rentables con respaldo real en China.”',
       videoSrc: 'assets/media/testimonio-jugueteria.mp4',
+    },
+  ],
+
+  // --------------------------------------------------------------------------
+  // 8. Proveedores Verificados Gratis (videos de empresa y enlaces 1688)
+  // --------------------------------------------------------------------------
+  verifiedSuppliers: [
+    {
+      id: 'sup-1',
+      code: 'PROV-01',
+      city: 'Shenzhen, Guangdong',
+      sector: 'Tecnología & Gadgets Innovadores',
+      name: 'Fábrica Verificada #01 — Hardware & Gadgets Inteligentes',
+      summary:
+        'Fabricante directo en Shenzhen especializado en dispositivos inteligentes de lanzamiento temprano, antes de que se saturen en marketplaces locales.',
+      highlights: [
+        'Inspección física de planta y licencias en China',
+        'Líneas con alta diferenciación y baja competencia',
+        'Catálogo con precios directos de fábrica 1688',
+      ],
+      videoSrc: 'assets/media/proveedor-1.mp4',
+      youtubeEmbedUrl: '',
+      supplierUrl: '',
+    },
+    {
+      id: 'sup-2',
+      code: 'PROV-02',
+      city: 'Dongguan, Guangdong',
+      sector: 'Audio, Iluminación & Diseño',
+      name: 'Fábrica Verificada #02 — Electrónica de Consumo Premium',
+      summary:
+        'Planta certificada en Dongguan con control de calidad en línea de montaje y empaques listos para diferenciarte por diseño e innovación.',
+      highlights: [
+        'Video real de planta y control de calidad incluido',
+        'Opciones de marca propia y empaque reforzado',
+        'Despacho consolidado hacia ruta marítima DDP',
+      ],
+      videoSrc: 'assets/media/proveedor-2.mp4',
+      youtubeEmbedUrl: '',
+      supplierUrl: '',
+    },
+    {
+      id: 'sup-3',
+      code: 'PROV-03',
+      city: 'Guangzhou / Ningbo',
+      sector: 'Hogar Inteligente & Movilidad',
+      name: 'Fábrica Verificada #03 — Equipamiento Novedoso de Alto Margen',
+      summary:
+        'Proveedor auditado enfocado en soluciones prácticas e innovadoras de alta rotación para quienes buscan márgenes superiores sin guerra de precios.',
+      highlights: [
+        'Acceso abierto sin suscripción ni intermediarios',
+        'Verificación comercial y trazabilidad bancaria',
+        'Ideal para escalar cargas marítimas rentables',
+      ],
+      videoSrc: 'assets/media/proveedor-3.mp4',
+      youtubeEmbedUrl: '',
+      supplierUrl: '',
     },
   ],
 };

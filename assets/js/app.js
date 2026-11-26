@@ -789,7 +789,9 @@
     const grid = document.getElementById('products-grid');
     if (!grid) return;
 
-    grid.innerHTML = PRODUCTS
+    const withPhoto = PRODUCTS.filter((p) => Boolean(p.imageUrl));
+
+    grid.innerHTML = withPhoto
       .map((p) => {
         const m = calculateProductMetrics(p);
         const isUnlocked = state.unlocked;
@@ -840,20 +842,26 @@
           p.channel === 'ml' && m.netMarginCop !== null
             ? `
               <div class="margin-row">
-                <span>Costo 1688 (${p.cost1688} ${p.currency})</span>
+                <span>Costo en 1688 (${p.cost1688} ${p.currency})</span>
                 <strong class="mono">${formatCOP(m.productCostCop)}</strong>
               </div>
               <div class="margin-row">
-                <span>Flete Marítimo DDP</span>
+                <span>Envío Marítimo DDP</span>
                 <strong class="mono">${formatCOP(m.ddpCostCop)}</strong>
               </div>
               <div class="margin-row">
                 <span>Comisión ML (20%)</span>
                 <strong class="mono">-${formatCOP(m.mlCommissionCop)}</strong>
               </div>
-              <div class="margin-row highlight">
-                <span>Margen Neto / und</span>
-                <strong class="mono">${formatCOP(m.netMarginCop)} (${m.roiPercent}% ROI)</strong>
+              <div class="profit-callout">
+                <div class="profit-callout-top">
+                  <span>TU MARGEN DE GANANCIA POR VENTA</span>
+                  <span class="profit-callout-badge mono">+${m.roiPercent}% ganancia</span>
+                </div>
+                <div class="profit-callout-amount mono">${formatCOP(m.netMarginCop)}</div>
+                <div class="profit-callout-invite">
+                  <strong>Este puedes ser tú</strong> · En 100 ventas: <span class="mono">${formatCOP(m.netMarginCop * 100)}</span>
+                </div>
               </div>
             `
             : `
@@ -896,7 +904,7 @@
           `
           : `
             <button type="button" class="btn btn-primary btn-sm" data-unlock-product="${p.name}">
-              ${ICONS.lock} Desbloquear Ganancia + Link 1688
+              ${ICONS.lock} Ver Margen de Ganancia + Link 1688
             </button>
           `;
 
@@ -924,8 +932,8 @@
             <div class="margin-panel ${isUnlocked ? 'is-unlocked' : 'is-locked'}">
               <div class="margin-rows">${marginHtml}</div>
               <div class="lock-overlay">
-                <span class="lock-pill">${ICONS.lock} ¿Cuánto ganan por venta?</span>
-                <span class="lock-hint">Desbloquea el costo real en 1688, link de fábrica y tu ganancia neta</span>
+                <span class="lock-pill">${ICONS.lock} ¿Cuánto ganan en esta venta?</span>
+                <span class="lock-hint">Este puedes ser tú · Desbloquea el margen de ganancia y el link de 1688</span>
               </div>
             </div>
 
@@ -960,8 +968,8 @@
     const statusBadge = document.getElementById('wall-unlock-status');
     if (statusBadge) {
       statusBadge.innerHTML = state.unlocked
-        ? '<span style="color:var(--emerald-400);font-weight:700;">✓ Márgenes y enlaces 1688 desbloqueados</span> · <button type="button" id="relock-demo-btn" style="background:none;border:0;color:var(--text-muted);text-decoration:underline;cursor:pointer;font-size:0.78rem;">Bloquear vista</button>'
-        : '<span style="color:var(--accent-light);font-weight:700;">🔒 Márgenes y enlaces 1688 protegidos</span> · Desbloquea gratis';
+        ? '<span style="color:var(--emerald-400);font-weight:700;">✓ Margen de ganancia y enlaces 1688 desbloqueados</span> · <button type="button" id="relock-demo-btn" style="background:none;border:0;color:var(--text-muted);text-decoration:underline;cursor:pointer;font-size:0.78rem;">Bloquear vista</button>'
+        : '<span style="color:var(--accent-light);font-weight:700;">🔒 Margen de ganancia bloqueado</span> · Desbloquéalo gratis';
 
       const relockBtn = document.getElementById('relock-demo-btn');
       if (relockBtn) {
@@ -1230,6 +1238,121 @@
   // 8. PRUEBA SOCIAL (MUTE / UNMUTE INDIVIDUAL)
   // ==========================================================================
 
+  // ==========================================================================
+  // 7B. PROVEEDORES VERIFICADOS GRATIS (VIDEOS DE EMPRESA)
+  // ==========================================================================
+
+  function renderVerifiedSuppliers() {
+    const grid = document.getElementById('suppliers-grid');
+    if (!grid) return;
+
+    const suppliers = Array.isArray(CONFIG.verifiedSuppliers) ? CONFIG.verifiedSuppliers : [];
+
+    grid.innerHTML = suppliers
+      .map((s) => {
+        const mediaHtml = s.youtubeEmbedUrl
+          ? `<iframe src="${s.youtubeEmbedUrl}" title="${s.name} — Video de empresa" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen loading="lazy"></iframe>`
+          : `
+            <video data-supplier-video="${s.id}" autoplay loop muted playsinline preload="metadata">
+              <source src="${s.videoSrc}" type="video/mp4">
+            </video>
+            <div class="supplier-video-fallback" data-supplier-fallback="${s.id}">
+              <span class="case-metric mono">ACCESO GRATIS · VERIFICADO</span>
+              <div>
+                <p class="supplier-fallback-status mono">VIDEO DE EMPRESA · PRÓXIMAMENTE</p>
+                <p class="supplier-fallback-city">${s.city} · ${s.sector}</p>
+              </div>
+            </div>
+            <button
+              type="button"
+              class="mute-toggle-btn"
+              data-supplier-mute="${s.id}"
+              aria-label="Activar o silenciar audio del video de empresa"
+              style="display:none;"
+            >
+              ${ICONS.muted}
+            </button>
+          `;
+
+        const actionHtml = s.supplierUrl
+          ? `<a href="${s.supplierUrl}" target="_blank" rel="noopener" class="btn btn-primary btn-sm" style="width:100%;">Ver proveedor directo en 1688 →</a>`
+          : `<button type="button" class="btn btn-primary btn-sm" style="width:100%;" data-supplier-cta="${s.id}">Solicitar catálogo gratis →</button>`;
+
+        return `
+          <article class="glass-card supplier-card">
+            <div class="supplier-video-box">
+              ${mediaHtml}
+            </div>
+            <div class="supplier-body">
+              <div class="supplier-badge-row">
+                <span class="chip chip-accent mono">${s.code} // ${s.city}</span>
+                <span class="chip mono">${s.sector}</span>
+              </div>
+              <h3 class="supplier-title">${s.name}</h3>
+              <p class="supplier-summary">${s.summary}</p>
+              <ul class="takeaways-list">
+                ${(s.highlights || []).map((item) => `<li>${item}</li>`).join('')}
+              </ul>
+              <div class="supplier-cta">
+                ${actionHtml}
+              </div>
+            </div>
+          </article>
+        `;
+      })
+      .join('');
+
+    const videos = Array.from(grid.querySelectorAll('[data-supplier-video]'));
+    videos.forEach((vid) => {
+      const id = vid.getAttribute('data-supplier-video');
+      vid.addEventListener('loadeddata', () => {
+        vid.classList.add('is-ready');
+        const fb = grid.querySelector(`[data-supplier-fallback="${id}"]`);
+        if (fb) fb.style.background = 'linear-gradient(180deg, transparent 58%, rgba(7,8,10,0.88) 100%)';
+        const btn = grid.querySelector(`[data-supplier-mute="${id}"]`);
+        if (btn) btn.style.display = 'grid';
+      });
+    });
+
+    grid.querySelectorAll('[data-supplier-mute]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const targetId = btn.getAttribute('data-supplier-mute');
+        const targetVideo = grid.querySelector(`[data-supplier-video="${targetId}"]`);
+        if (!targetVideo) return;
+
+        const willUnmute = targetVideo.muted;
+        document.querySelectorAll('[data-supplier-video], [data-social-video]').forEach((v) => {
+          v.muted = true;
+          const sid = v.getAttribute('data-supplier-video');
+          if (sid) {
+            const sBtn = document.querySelector(`[data-supplier-mute="${sid}"]`);
+            if (sBtn) sBtn.innerHTML = ICONS.muted;
+          }
+          const cid = v.getAttribute('data-social-video');
+          if (cid) {
+            const cBtn = document.querySelector(`[data-mute-target="${cid}"]`);
+            if (cBtn) cBtn.innerHTML = ICONS.muted;
+          }
+        });
+
+        targetVideo.muted = !willUnmute;
+        btn.innerHTML = targetVideo.muted ? ICONS.muted : ICONS.unmuted;
+        if (!targetVideo.muted) targetVideo.play().catch(() => {});
+      });
+    });
+
+    grid.querySelectorAll('[data-supplier-cta]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const sid = btn.getAttribute('data-supplier-cta');
+        const supplier = suppliers.find((item) => item.id === sid);
+        if (!supplier) return;
+        prefillB2BQuote(
+          `Hola, me interesa recibir gratis el catálogo y contacto directo del ${supplier.name} (${supplier.city} — ${supplier.sector}).`
+        );
+      });
+    });
+  }
+
   function renderTestimonials() {
     const grid = document.getElementById('social-grid');
     if (!grid) return;
@@ -1436,7 +1559,7 @@
           feedback.textContent = 'Error de conexión. Intenta de nuevo o escríbenos por WhatsApp.';
         } finally {
           submitBtn.disabled = false;
-          submitBtn.textContent = 'Desbloquear Márgenes + Enlaces 1688';
+          submitBtn.textContent = 'Ver Margen de Ganancia + Enlaces 1688';
         }
       });
     }
@@ -1738,6 +1861,7 @@
     renderProducts();
     initRealtime1688Calculator();
     renderAcademy();
+    renderVerifiedSuppliers();
     renderTestimonials();
     initLeadModal();
     initB2BForm();
